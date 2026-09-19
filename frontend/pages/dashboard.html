@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | TravelSmart</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">🌍</div>
+            <h2>TravelSmart</h2>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Main</div>
+            <button class="sidebar-link active" data-page="dashboard">
+                <span class="link-icon">📊</span> Dashboard
+            </button>
+            <button class="sidebar-link" data-page="explore">
+                <span class="link-icon">🏔️</span> Explore Destinations
+            </button>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Trip Planning</div>
+            <button class="sidebar-link" data-page="trip-planner">
+                <span class="link-icon">🤖</span> AI Trip Planner
+            </button>
+            <button class="sidebar-link" data-page="booking">
+                <span class="link-icon">🏨</span> Smart Booking
+            </button>
+            <button class="sidebar-link" data-page="payment">
+                <span class="link-icon">💳</span> Payments
+            </button>
+            <button class="sidebar-link" data-page="price-tracker">
+                <span class="link-icon">📊</span> Price Tracker
+            </button>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">On-Trip</div>
+            <button class="sidebar-link" data-page="navigation">
+                <span class="link-icon">🗺️</span> Navigation
+            </button>
+            <button class="sidebar-link" data-page="weather">
+                <span class="link-icon">⛅</span> Weather
+            </button>
+            <button class="sidebar-link" data-page="nearby">
+                <span class="link-icon">📍</span> Nearby Services
+            </button>
+            <button class="sidebar-link" data-page="emergency">
+                <span class="link-icon">🚨</span> Emergency SOS
+            </button>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Tools</div>
+            <button class="sidebar-link" data-page="expense">
+                <span class="link-icon">💰</span> Expense Splitter
+            </button>
+            <button class="sidebar-link" data-page="road-condition">
+                <span class="link-icon">🛣️</span> Road Conditions
+            </button>
+            <button class="sidebar-link" data-page="permit">
+                <span class="link-icon">📋</span> Permit Checker
+            </button>
+            <button class="sidebar-link" data-page="network">
+                <span class="link-icon">📶</span> Network Coverage
+            </button>
+            <button class="sidebar-link" data-page="bluetooth">
+                <span class="link-icon">📡</span> Offline Messaging
+            </button>
+        </div>
+
+        <div class="sidebar-section" id="adminSection" style="display:none;">
+            <div class="sidebar-section-title">Admin</div>
+            <button class="sidebar-link" data-page="admin">
+                <span class="link-icon">⚙️</span> Admin Panel
+            </button>
+        </div>
+
+        <div class="sidebar-section" style="margin-top:auto; border-top:1px solid var(--border-color); padding-top:16px;">
+            <button class="sidebar-link" data-page="profile">
+                <span class="link-icon">👤</span> My Profile
+            </button>
+            <button class="sidebar-link" id="logoutBtn" style="color: var(--danger);">
+                <span class="link-icon">🚪</span> Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Page -->
+        <div id="page-dashboard" class="page-content active">
+            <div class="page-header">
+                <h1 id="welcomeMsg">Welcome back! 👋</h1>
+                <p>Here's your travel overview</p>
+            </div>
+            <div class="stats-grid" id="dashboardStats">
+                <div class="stat-card animate-in">
+                    <div class="stat-icon purple">🗺️</div>
+                    <div class="stat-info"><h3 id="statTrips">0</h3><p>Trip Plans</p></div>
+                </div>
+                <div class="stat-card animate-in">
+                    <div class="stat-icon cyan">🏨</div>
+                    <div class="stat-info"><h3 id="statBookings">0</h3><p>Bookings</p></div>
+                </div>
+                <div class="stat-card animate-in">
+                    <div class="stat-icon orange">💳</div>
+                    <div class="stat-info"><h3 id="statPayments">₹0</h3><p>Total Spent</p></div>
+                </div>
+                <div class="stat-card animate-in">
+                    <div class="stat-icon green">💰</div>
+                    <div class="stat-info"><h3 id="statExpenses">0</h3><p>Expense Groups</p></div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3 style="margin-bottom:16px;">🎯 Quick Actions</h3>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                        <button class="btn btn-primary" onclick="navigateTo('trip-planner')">🤖 Plan Trip</button>
+                        <button class="btn btn-secondary" onclick="navigateTo('booking')">🏨 Book Now</button>
+                        <button class="btn btn-accent" onclick="navigateTo('explore')">🏔️ Explore</button>
+                        <button class="btn btn-success" onclick="navigateTo('weather')">⛅ Weather</button>
+                    </div>
+                </div>
+                <div class="glass-card">
+                    <h3 style="margin-bottom:16px;">📋 Recent Activity</h3>
+                    <div id="recentActivity">
+                        <p style="color:var(--text-muted);">No recent activity yet. Start exploring!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Explore Destinations Page -->
+        <div id="page-explore" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>🏔️ Explore Destinations</h1>
+                <p>Discover amazing places across India</p>
+            </div>
+            <div class="flex-between mb-3" style="flex-wrap:wrap; gap:12px;">
+                <div class="tabs" id="categoryTabs">
+                    <button class="tab active" data-cat="">All</button>
+                    <button class="tab" data-cat="mountain">🏔️ Mountain</button>
+                    <button class="tab" data-cat="beach">🏖️ Beach</button>
+                    <button class="tab" data-cat="heritage">🏛️ Heritage</button>
+                    <button class="tab" data-cat="adventure">🧗 Adventure</button>
+                    <button class="tab" data-cat="forest">🌲 Forest</button>
+                    <button class="tab" data-cat="desert">🏜️ Desert</button>
+                </div>
+                <input type="text" class="form-input" id="searchDest" placeholder="🔍 Search destinations..." style="max-width:300px;">
+            </div>
+            <div class="grid-3" id="destinationsGrid"></div>
+        </div>
+
+        <!-- AI Trip Planner Page -->
+        <div id="page-trip-planner" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>🤖 AI Trip Planner</h1>
+                <p>Let our AI create the perfect itinerary for you</p>
+            </div>
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3 style="margin-bottom:20px;">Plan Your Trip</h3>
+                    <form id="tripForm">
+                        <div class="form-group">
+                            <label class="form-label">Destination</label>
+                            <input type="text" class="form-input" id="tripDest" placeholder="e.g. Manali, Goa, Ladakh" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Start Date</label>
+                                <input type="date" class="form-input" id="tripStart" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">End Date</label>
+                                <input type="date" class="form-input" id="tripEnd" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Budget (₹)</label>
+                                <input type="number" class="form-input" id="tripBudget" placeholder="e.g. 25000" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Travelers</label>
+                                <input type="number" class="form-input" id="tripTravelers" value="1" min="1" max="20">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Travel Style</label>
+                            <select class="form-select" id="tripStyle">
+                                <option value="budget">Budget</option>
+                                <option value="mid-range" selected>Mid-Range</option>
+                                <option value="luxury">Luxury</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Interests</label>
+                            <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                                <label class="form-check"><input type="checkbox" value="adventure"> Adventure</label>
+                                <label class="form-check"><input type="checkbox" value="culture"> Culture</label>
+                                <label class="form-check"><input type="checkbox" value="nature"> Nature</label>
+                                <label class="form-check"><input type="checkbox" value="food"> Food</label>
+                                <label class="form-check"><input type="checkbox" value="relaxation"> Relaxation</label>
+                                <label class="form-check"><input type="checkbox" value="shopping"> Shopping</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-full btn-lg">🤖 Generate Itinerary</button>
+                    </form>
+                </div>
+                <div class="glass-card">
+                    <h3 style="margin-bottom:20px;">My Trip Plans</h3>
+                    <div id="myTrips"><p style="color:var(--text-muted);">No trips planned yet.</p></div>
+                </div>
+            </div>
+            <div id="itineraryResult" class="glass-card mt-3" style="display:none;">
+                <div class="flex-between mb-2">
+                    <h3>📅 Your AI-Generated Itinerary</h3>
+                    <button class="btn btn-success btn-sm" id="optimizeBtn">⚡ Optimize for Weather</button>
+                </div>
+                <div id="itineraryTimeline"></div>
+            </div>
+        </div>
+
+        <!-- Smart Booking Page -->
+        <div id="page-booking" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>🏨 Smart Booking System</h1>
+                <p>Book hotels, cabs, and adventure activities</p>
+            </div>
+            <div class="tabs" id="bookingTabs">
+                <button class="tab active" data-tab="hotel">🏨 Hotels</button>
+                <button class="tab" data-tab="cab">🚕 Cabs</button>
+                <button class="tab" data-tab="adventure">🧗 Adventures</button>
+                <button class="tab" data-tab="my-bookings">📋 My Bookings</button>
+            </div>
+            <div id="tab-hotel" class="tab-content active">
+                <div class="glass-card">
+                    <h3 style="margin-bottom:20px;">Book a Hotel</h3>
+                    <form id="hotelBookingForm">
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Destination</label><input type="text" class="form-input" id="hotelDest" placeholder="e.g. Manali" required></div>
+                            <div class="form-group"><label class="form-label">Hotel Name</label><input type="text" class="form-input" id="hotelName" placeholder="Hotel name" required></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Check-in</label><input type="date" class="form-input" id="hotelCheckIn" required></div>
+                            <div class="form-group"><label class="form-label">Check-out</label><input type="date" class="form-input" id="hotelCheckOut" required></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Room Type</label>
+                                <select class="form-select" id="hotelRoom"><option>Standard</option><option>Deluxe</option><option>Suite</option><option>Premium</option></select>
+                            </div>
+                            <div class="form-group"><label class="form-label">Guests</label><input type="number" class="form-input" id="hotelGuests" value="2" min="1"></div>
+                        </div>
+                        <div class="form-group"><label class="form-label">Amount (₹)</label><input type="number" class="form-input" id="hotelAmount" placeholder="Total amount" required></div>
+                        <button type="submit" class="btn btn-primary btn-lg w-full">🏨 Book Hotel</button>
+                    </form>
+                </div>
+            </div>
+            <div id="tab-cab" class="tab-content">
+                <div class="glass-card">
+                    <h3 style="margin-bottom:20px;">Book a Cab</h3>
+                    <form id="cabBookingForm">
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Pickup Location</label><input type="text" class="form-input" id="cabPickup" placeholder="Pickup point" required></div>
+                            <div class="form-group"><label class="form-label">Drop Location</label><input type="text" class="form-input" id="cabDrop" placeholder="Drop point" required></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Cab Type</label>
+                                <select class="form-select" id="cabType"><option value="hatchback">Hatchback</option><option value="sedan">Sedan</option><option value="suv">SUV</option><option value="auto">Auto</option></select>
+                            </div>
+                            <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="cabDate" required></div>
+                        </div>
+                        <div class="form-group"><label class="form-label">Amount (₹)</label><input type="number" class="form-input" id="cabAmount" placeholder="Total amount" required></div>
+                        <button type="submit" class="btn btn-primary btn-lg w-full">🚕 Book Cab</button>
+                    </form>
+                </div>
+            </div>
+            <div id="tab-adventure" class="tab-content">
+                <div class="glass-card">
+                    <h3 style="margin-bottom:20px;">Book Adventure Activity</h3>
+                    <form id="adventureBookingForm">
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Activity Name</label><input type="text" class="form-input" id="advName" placeholder="e.g. Paragliding" required></div>
+                            <div class="form-group"><label class="form-label">Destination</label><input type="text" class="form-input" id="advDest" placeholder="Location" required></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="advDate" required></div>
+                            <div class="form-group"><label class="form-label">Slots/People</label><input type="number" class="form-input" id="advSlots" value="1" min="1"></div>
+                        </div>
+                        <div class="form-group"><label class="form-label">Amount (₹)</label><input type="number" class="form-input" id="advAmount" placeholder="Total amount" required></div>
+                        <button type="submit" class="btn btn-accent btn-lg w-full">🧗 Book Activity</button>
+                    </form>
+                </div>
+            </div>
+            <div id="tab-my-bookings" class="tab-content">
+                <div id="myBookingsList"></div>
+            </div>
+        </div>
+
+        <!-- Payment Page -->
+        <div id="page-payment" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>💳 Payment Center</h1>
+                <p>Manage payments, apply coupons, and view receipts</p>
+            </div>
+            <div class="glass-card mb-3">
+                <h3 style="margin-bottom:20px;">💰 Payment History</h3>
+                <div id="paymentHistory"><p style="color:var(--text-muted);">No payments yet.</p></div>
+            </div>
+        </div>
+
+        <!-- Price Tracker Page -->
+        <div id="page-price-tracker" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>📊 Hotel Price Tracker</h1>
+                <p>Track prices, view trends, and set alerts</p>
+            </div>
+            <div class="form-group" style="max-width:400px;">
+                <input type="text" class="form-input" id="priceDestSearch" placeholder="🔍 Search destination for prices...">
+            </div>
+            <div id="priceResults" class="grid-3"></div>
+        </div>
+
+        <!-- Weather Page -->
+        <div id="page-weather" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>⛅ Weather & Suggestions</h1>
+                <p>Check weather and get activity recommendations</p>
+            </div>
+            <div class="flex flex-gap mb-3" style="max-width:500px;">
+                <input type="text" class="form-input" id="weatherCity" placeholder="Enter city name..." value="Manali">
+                <button class="btn btn-primary" id="checkWeatherBtn">🔍 Check</button>
+            </div>
+            <div class="grid-2">
+                <div id="weatherResult"></div>
+                <div id="weatherSuggestions" class="glass-card"><p style="color:var(--text-muted);">Enter a city to get weather data</p></div>
+            </div>
+            <div class="mt-3">
+                <h3 style="margin-bottom:16px;">📅 5-Day Forecast</h3>
+                <div class="forecast-grid" id="forecastGrid"></div>
+            </div>
+        </div>
+
+        <!-- Navigation Page -->
+        <div id="page-navigation" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>🗺️ Navigation & Routes</h1>
+                <p>Plan your route with distance and time estimates</p>
+            </div>
+            <div class="glass-card mb-3">
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">From</label><input type="text" class="form-input" id="navFrom" placeholder="Starting point"></div>
+                    <div class="form-group"><label class="form-label">To</label><input type="text" class="form-input" id="navTo" placeholder="Destination"></div>
+                </div>
+                <button class="btn btn-primary" id="getRouteBtn">🗺️ Get Route</button>
+            </div>
+            <div id="routeResult" style="display:none;" class="glass-card mb-3"></div>
+            <div class="map-container"><div id="map"></div></div>
+            <div class="glass-card mt-3">
+                <h3 style="margin-bottom:16px;">🌟 Popular Routes</h3>
+                <div id="popularRoutes"></div>
+            </div>
+        </div>
+
+        <!-- Nearby Services Page -->
+        <div id="page-nearby" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>📍 Nearby Services</h1>
+                <p>Find essential services near your location</p>
+            </div>
+            <div class="tabs" id="nearbyTabs">
+                <button class="tab active" data-type="restaurant">🍽️ Restaurants</button>
+                <button class="tab" data-type="hospital">🏥 Hospitals</button>
+                <button class="tab" data-type="atm">🏧 ATMs</button>
+                <button class="tab" data-type="police">👮 Police</button>
+                <button class="tab" data-type="pharmacy">💊 Pharmacy</button>
+                <button class="tab" data-type="petrolpump">⛽ Petrol</button>
+            </div>
+            <div id="nearbyResults" class="grid-3"></div>
+        </div>
+
+        <!-- Emergency SOS Page -->
+        <div id="page-emergency" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>🚨 Emergency Center</h1>
+                <p>Get immediate help in emergencies</p>
+            </div>
+            <div class="text-center mb-3" style="padding:40px;">
+                <button class="btn btn-sos" id="sosBtn">🆘 SEND SOS</button>
+                <p style="color:var(--text-muted); margin-top:16px;">Press to send SOS with your GPS location</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card" style="cursor:pointer;" onclick="window.open('tel:100')"><div class="stat-icon red">👮</div><div class="stat-info"><h3>100</h3><p>Police</p></div></div>
+                <div class="stat-card" style="cursor:pointer;" onclick="window.open('tel:108')"><div class="stat-icon red">🚑</div><div class="stat-info"><h3>108</h3><p>Ambulance</p></div></div>
+                <div class="stat-card" style="cursor:pointer;" onclick="window.open('tel:101')"><div class="stat-icon red">🚒</div><div class="stat-info"><h3>101</h3><p>Fire</p></div></div>
+                <div class="stat-card" style="cursor:pointer;" onclick="window.open('tel:1363')"><div class="stat-icon blue">🏔️</div><div class="stat-info"><h3>1363</h3><p>Tourist Helpline</p></div></div>
+            </div>
+            <div class="glass-card mt-3">
+                <h3 style="margin-bottom:16px;">🛡️ Safety Tips</h3>
+                <div id="safetyTips"></div>
+            </div>
+        </div>
+
+        <!-- Expense Splitter Page -->
+        <div id="page-expense" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>💰 Travel Expense Splitter</h1>
+                <p>Split expenses and track who owes whom</p>
+            </div>
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3 style="margin-bottom:20px;">Create Expense Group</h3>
+                    <form id="expenseGroupForm">
+                        <div class="form-group"><label class="form-label">Group Name</label><input type="text" class="form-input" id="expGroupName" placeholder="e.g. Goa Trip Gang" required></div>
+                        <div class="form-group"><label class="form-label">Trip Destination</label><input type="text" class="form-input" id="expTripDest" placeholder="e.g. Goa"></div>
+                        <div class="form-group"><label class="form-label">Members (comma separated names)</label><input type="text" class="form-input" id="expMembers" placeholder="Rahul, Priya, Amit" required></div>
+                        <button type="submit" class="btn btn-primary w-full">👥 Create Group</button>
+                    </form>
+                </div>
+                <div class="glass-card">
+                    <h3 style="margin-bottom:20px;">My Groups</h3>
+                    <div id="myExpGroups"><p style="color:var(--text-muted);">No expense groups yet.</p></div>
+                </div>
+            </div>
+            <div id="expenseDetails" class="glass-card mt-3" style="display:none;"></div>
+        </div>
+
+        <!-- Road Condition Page -->
+        <div id="page-road-condition" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>🛣️ Road Condition Reports</h1>
+                <p>Report and view road conditions for safe travel</p>
+            </div>
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3 style="margin-bottom:20px;">Submit Report</h3>
+                    <form id="roadReportForm">
+                        <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="roadLocation" placeholder="Road/Location name" required></div>
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Type</label>
+                                <select class="form-select" id="roadType"><option value="blocked">🚧 Road Blocked</option><option value="landslide">⛰️ Landslide</option><option value="waterlogging">🌊 Waterlogging</option><option value="traffic">🚗 Heavy Traffic</option><option value="damaged">🕳️ Damaged Road</option><option value="construction">🏗️ Construction</option></select>
+                            </div>
+                            <div class="form-group"><label class="form-label">Severity</label>
+                                <select class="form-select" id="roadSeverity"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option><option value="critical">Critical</option></select>
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="roadDesc" placeholder="Describe the condition..." required></textarea></div>
+                        <button type="submit" class="btn btn-warning w-full">🛣️ Submit Report</button>
+                    </form>
+                </div>
+                <div class="glass-card">
+                    <h3 style="margin-bottom:16px;">Recent Alerts</h3>
+                    <div id="roadAlerts"><p style="color:var(--text-muted);">No alerts</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Permit Checker Page -->
+        <div id="page-permit" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>📋 Permit & Entry Checker</h1>
+                <p>Check if you need permits for your destination</p>
+            </div>
+            <div class="glass-card mb-3">
+                <div class="flex flex-gap" style="max-width:600px;">
+                    <select class="form-select" id="permitDest" style="flex:1;">
+                        <option value="">Select Destination</option>
+                        <option value="Ladakh">Ladakh</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Andaman and Nicobar Islands">Andaman & Nicobar</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Lakshadweep">Lakshadweep</option>
+                        <option value="Manali">Manali</option>
+                        <option value="Goa">Goa</option>
+                    </select>
+                    <button class="btn btn-primary" id="checkPermitBtn">🔍 Check</button>
+                </div>
+            </div>
+            <div id="permitResult"></div>
+        </div>
+
+        <!-- Network Coverage Page -->
+        <div id="page-network" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>📶 Network Coverage Map</h1>
+                <p>Check mobile network coverage before you travel</p>
+            </div>
+            <div class="glass-card mb-3">
+                <h3 style="margin-bottom:16px;">Known Dead Zones</h3>
+                <div id="deadZonesList"></div>
+            </div>
+            <div class="glass-card">
+                <h3 style="margin-bottom:20px;">Report Coverage</h3>
+                <form id="coverageReportForm">
+                    <div class="form-row">
+                        <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="covLocation" placeholder="Location name" required></div>
+                        <div class="form-group"><label class="form-label">Operator</label>
+                            <select class="form-select" id="covOperator"><option>Jio</option><option>Airtel</option><option>Vi</option><option>BSNL</option></select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label class="form-label">Signal Strength (0-100)</label><input type="number" class="form-input" id="covSignal" min="0" max="100" value="50"></div>
+                        <div class="form-group"><label class="form-label">Coverage Type</label>
+                            <select class="form-select" id="covType"><option>4G</option><option>3G</option><option>2G</option><option>none</option></select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">📶 Submit Report</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bluetooth/Offline Messaging Page -->
+        <div id="page-bluetooth" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>📡 Offline Messaging</h1>
+                <p>Communicate with nearby travelers via Bluetooth</p>
+            </div>
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3 style="margin-bottom:20px;">Nearby Devices</h3>
+                    <button class="btn btn-secondary mb-2" id="discoverBtn">📡 Discover Nearby</button>
+                    <div id="nearbyDevices"></div>
+                </div>
+                <div class="glass-card">
+                    <h3 style="margin-bottom:20px;">Send Message</h3>
+                    <form id="btMessageForm">
+                        <div class="form-group"><label class="form-label">Recipient</label><input type="text" class="form-input" id="btRecipient" placeholder="Name or 'Nearby Travellers'" value="Nearby Travellers"></div>
+                        <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" id="btMessage" placeholder="Type your message..." required></textarea></div>
+                        <div class="form-group"><label class="form-label">Type</label>
+                            <select class="form-select" id="btType"><option value="text">📝 Text</option><option value="sos">🆘 SOS</option><option value="location">📍 Location</option></select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-full">📤 Send</button>
+                    </form>
+                </div>
+            </div>
+            <div class="glass-card mt-3">
+                <div class="flex-between mb-2">
+                    <h3>💬 Messages</h3>
+                    <button class="btn btn-success btn-sm" id="syncBtn">🔄 Sync All</button>
+                </div>
+                <div id="btMessages"></div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="page-profile" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>👤 My Profile</h1>
+                <p>Manage your account settings</p>
+            </div>
+            <div class="glass-card" style="max-width:600px;">
+                <form id="profileForm">
+                    <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" id="profName"></div>
+                    <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="profEmail" disabled></div>
+                    <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="profPhone"></div>
+                    <div class="form-group"><label class="form-label">Role</label><input type="text" class="form-input" id="profRole" disabled></div>
+                    <button type="submit" class="btn btn-primary">💾 Update Profile</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Admin Page -->
+        <div id="page-admin" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>⚙️ Admin Panel</h1>
+                <p>Manage users, reports, and system</p>
+            </div>
+            <div class="tabs">
+                <button class="tab active" onclick="loadAdminUsers()">👥 Users</button>
+                <button class="tab" onclick="loadAdminReports()">🛣️ Road Reports</button>
+                <button class="tab" onclick="loadAdminBookings()">🏨 Bookings</button>
+            </div>
+            <div id="adminContent" class="mt-2"></div>
+        </div>
+    </main>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modalContent"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>
