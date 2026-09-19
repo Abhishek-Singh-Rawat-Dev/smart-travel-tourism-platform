@@ -6,8 +6,15 @@ const connectDB = require('../database/config/db');
 
 const app = express();
 
-// Connect to MongoDB
-connectDB();
+// Non-blocking database connection middleware
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+    } catch (e) {
+        // Continue gracefully
+    }
+    next();
+});
 
 // Middleware
 app.use(cors());
