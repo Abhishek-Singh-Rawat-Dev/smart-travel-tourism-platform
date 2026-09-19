@@ -1,3 +1,5 @@
-// Root Server Launcher
+// Root Server Launcher & Serverless Entrypoint
 // Modular architecture: delegates to backend/server.js
-require('./backend/server');
+const app = require('./backend/server');
+
+module.exports = app;
