@@ -355,7 +355,7 @@ async function seedDatabase() {
         });
 
         await User.create({
-            name: 'Priya Patel (Admin)',
+            name: 'Abhishek Singh Rawat (Admin)',
             email: 'admin@travelsmart.com',
             password: 'password123',
             role: 'admin',
