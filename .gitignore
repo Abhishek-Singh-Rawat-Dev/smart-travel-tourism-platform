@@ -1,21 +1,65 @@
-# Dependencies
-node_modules/
-
-# Environment Variables
+# ==========================================
+# 🔒 SECURE & SENSITIVE FILES (DO NOT COMMIT)
+# ==========================================
+# Environment variable files containing secrets, API keys, JWT secret, DB URLs
 .env
-.env.local
-.env.*.local
+.env*
+!.env.example
+*.env
 
-# Vercel
-.vercel
+# Private keys, certificates & credentials
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+credentials.json
+service-account*.json
+secrets.json
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
 
-# System & IDE files
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
-
-# Logs
+# ==========================================
+# 📦 DEPENDENCIES & BUILD ARTIFACTS
+# ==========================================
+node_modules/
 npm-debug.log*
 yarn-debug.log*
+yarn-error.log*
+package-lock.json.bak
+dist/
+build/
+.cache/
+
+# ==========================================
+# ☁️ VERCEL & CLOUD DEPLOYMENTS
+# ==========================================
+.vercel
+.vercel/
+
+# ==========================================
+# 💻 OPERATING SYSTEM & IDE FILES
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ==========================================
+# 📝 LOGS & SCRATCH FILES
+# ==========================================
 *.log
+logs/
+*.tmp
+*.temp

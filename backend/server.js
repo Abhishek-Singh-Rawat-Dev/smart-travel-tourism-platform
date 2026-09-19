@@ -21,9 +21,11 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from frontend directory
+// Serve static files from frontend and public directories
 const frontendPath = path.join(__dirname, '../frontend');
+const publicPath = path.join(__dirname, '../public');
 app.use(express.static(frontendPath));
+app.use(express.static(publicPath));
 
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
