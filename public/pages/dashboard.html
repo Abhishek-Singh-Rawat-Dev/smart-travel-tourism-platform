@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
-    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+    <!-- Mobile Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Menu">☰</button>
 
-    <!-- Sidebar -->
+    <!-- Sidebar Navigation -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
             <div class="logo-icon">🌍</div>
@@ -44,7 +45,7 @@
         </div>
 
         <div class="sidebar-section">
-            <div class="sidebar-section-title">On-Trip</div>
+            <div class="sidebar-section-title">On-Trip Utilities</div>
             <button class="sidebar-link" data-page="navigation">
                 <span class="link-icon">🗺️</span> Navigation
             </button>
@@ -60,7 +61,7 @@
         </div>
 
         <div class="sidebar-section">
-            <div class="sidebar-section-title">Tools</div>
+            <div class="sidebar-section-title">Tools & Logistics</div>
             <button class="sidebar-link" data-page="expense">
                 <span class="link-icon">💰</span> Expense Splitter
             </button>
@@ -79,7 +80,7 @@
         </div>
 
         <div class="sidebar-section" id="adminSection" style="display:none;">
-            <div class="sidebar-section-title">Admin</div>
+            <div class="sidebar-section-title">Management</div>
             <button class="sidebar-link" data-page="admin">
                 <span class="link-icon">⚙️</span> Admin Panel
             </button>
@@ -90,91 +91,134 @@
                 <span class="link-icon">👤</span> My Profile
             </button>
             <button class="sidebar-link" id="logoutBtn" style="color: var(--danger);">
-                <span class="link-icon">🚪</span> Logout
+                <span class="link-icon">🚪</span> Sign Out
             </button>
         </div>
     </aside>
 
-    <!-- Main Content -->
+    <!-- Main Workspace Content -->
     <main class="main-content">
-        <!-- Dashboard Page -->
-        <div id="page-dashboard" class="page-content active">
-            <div class="page-header">
+        <!-- Top App Bar -->
+        <div class="dashboard-topbar">
+            <div class="welcome-title">
                 <h1 id="welcomeMsg">Welcome back! 👋</h1>
-                <p>Here's your travel overview</p>
+                <p>Your intelligent travel assistant & logistics overview</p>
             </div>
+            <div class="topbar-actions">
+                <button class="sos-top-btn" onclick="navigateTo('emergency')">
+                    <span>🚨</span>
+                    <span>SOS Center</span>
+                </button>
+                <div class="badge badge-orange" id="userRoleBadge" style="text-transform:capitalize;">
+                    👤 Traveler
+                </div>
+            </div>
+        </div>
+
+        <!-- 1. Dashboard Overview Page -->
+        <div id="page-dashboard" class="page-content active">
+            <!-- 4 Key Stat Cards -->
             <div class="stats-grid" id="dashboardStats">
-                <div class="stat-card animate-in">
+                <div class="stat-card">
                     <div class="stat-icon purple">🗺️</div>
-                    <div class="stat-info"><h3 id="statTrips">0</h3><p>Trip Plans</p></div>
+                    <div class="stat-info">
+                        <h3 id="statTrips">0</h3>
+                        <p>Trip Plans Created</p>
+                    </div>
                 </div>
-                <div class="stat-card animate-in">
+                <div class="stat-card">
                     <div class="stat-icon cyan">🏨</div>
-                    <div class="stat-info"><h3 id="statBookings">0</h3><p>Bookings</p></div>
+                    <div class="stat-info">
+                        <h3 id="statBookings">0</h3>
+                        <p>Confirmed Bookings</p>
+                    </div>
                 </div>
-                <div class="stat-card animate-in">
+                <div class="stat-card">
                     <div class="stat-icon orange">💳</div>
-                    <div class="stat-info"><h3 id="statPayments">₹0</h3><p>Total Spent</p></div>
+                    <div class="stat-info">
+                        <h3 id="statPayments">₹0</h3>
+                        <p>Total Spent</p>
+                    </div>
                 </div>
-                <div class="stat-card animate-in">
+                <div class="stat-card">
                     <div class="stat-icon green">💰</div>
-                    <div class="stat-info"><h3 id="statExpenses">0</h3><p>Expense Groups</p></div>
+                    <div class="stat-info">
+                        <h3 id="statExpenses">0</h3>
+                        <p>Expense Groups</p>
+                    </div>
                 </div>
             </div>
 
+            <!-- Quick Actions & Recent Activity Bento Grid -->
             <div class="grid-2">
                 <div class="glass-card">
-                    <h3 style="margin-bottom:16px;">🎯 Quick Actions</h3>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                        <button class="btn btn-primary" onclick="navigateTo('trip-planner')">🤖 Plan Trip</button>
-                        <button class="btn btn-secondary" onclick="navigateTo('booking')">🏨 Book Now</button>
-                        <button class="btn btn-accent" onclick="navigateTo('explore')">🏔️ Explore</button>
-                        <button class="btn btn-success" onclick="navigateTo('weather')">⛅ Weather</button>
+                    <div class="flex-between mb-3">
+                        <h3 style="font-size:18px;">🎯 Quick Actions</h3>
+                        <span class="badge badge-cyan">Shortcuts</span>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                        <button class="btn btn-primary" onclick="navigateTo('trip-planner')">
+                            <span>🤖</span> Plan Trip
+                        </button>
+                        <button class="btn btn-secondary" onclick="navigateTo('booking')">
+                            <span>🏨</span> Book Hotel/Cab
+                        </button>
+                        <button class="btn btn-accent" onclick="navigateTo('explore')">
+                            <span>🏔️</span> Explore Places
+                        </button>
+                        <button class="btn btn-success" onclick="navigateTo('weather')">
+                            <span>⛅</span> Check Weather
+                        </button>
                     </div>
                 </div>
+
                 <div class="glass-card">
-                    <h3 style="margin-bottom:16px;">📋 Recent Activity</h3>
+                    <div class="flex-between mb-3">
+                        <h3 style="font-size:18px;">📋 Recent Activity</h3>
+                        <span class="badge badge-purple">Live Feed</span>
+                    </div>
                     <div id="recentActivity">
-                        <p style="color:var(--text-muted);">No recent activity yet. Start exploring!</p>
+                        <p style="color:var(--text-muted); font-size:14px; padding:20px 0; text-align:center;">
+                            No recent bookings or itineraries. Start exploring destinations!
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Explore Destinations Page -->
+        <!-- 2. Explore Destinations Page -->
         <div id="page-explore" class="page-content" style="display:none;">
             <div class="page-header">
                 <h1>🏔️ Explore Destinations</h1>
-                <p>Discover amazing places across India</p>
+                <p>Discover India's top tourist paradises with real-time guides</p>
             </div>
             <div class="flex-between mb-3" style="flex-wrap:wrap; gap:12px;">
-                <div class="tabs" id="categoryTabs">
-                    <button class="tab active" data-cat="">All</button>
-                    <button class="tab" data-cat="mountain">🏔️ Mountain</button>
-                    <button class="tab" data-cat="beach">🏖️ Beach</button>
-                    <button class="tab" data-cat="heritage">🏛️ Heritage</button>
-                    <button class="tab" data-cat="adventure">🧗 Adventure</button>
-                    <button class="tab" data-cat="forest">🌲 Forest</button>
-                    <button class="tab" data-cat="desert">🏜️ Desert</button>
+                <div class="tabs" id="categoryTabs" style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn btn-secondary btn-sm active" data-cat="">All</button>
+                    <button class="btn btn-secondary btn-sm" data-cat="mountain">🏔️ Mountain</button>
+                    <button class="btn btn-secondary btn-sm" data-cat="beach">🏖️ Beach</button>
+                    <button class="btn btn-secondary btn-sm" data-cat="heritage">🏛️ Heritage</button>
+                    <button class="btn btn-secondary btn-sm" data-cat="adventure">🧗 Adventure</button>
+                    <button class="btn btn-secondary btn-sm" data-cat="desert">🏜️ Desert</button>
                 </div>
-                <input type="text" class="form-input" id="searchDest" placeholder="🔍 Search destinations..." style="max-width:300px;">
+                <input type="text" class="form-input" id="searchDest" placeholder="🔍 Search destinations (e.g. Manali, Goa)..." style="max-width:300px;">
             </div>
             <div class="grid-3" id="destinationsGrid"></div>
         </div>
 
-        <!-- AI Trip Planner Page -->
+        <!-- 3. AI Trip Planner Page -->
         <div id="page-trip-planner" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>🤖 AI Trip Planner</h1>
-                <p>Let our AI create the perfect itinerary for you</p>
+                <h1>🤖 AI Trip Planner & Itinerary Generator</h1>
+                <p>Generate smart, personalized day-by-day travel schedules</p>
             </div>
             <div class="grid-2">
                 <div class="glass-card">
-                    <h3 style="margin-bottom:20px;">Plan Your Trip</h3>
+                    <h3 style="margin-bottom:18px; font-size:18px;">Customize Your Journey</h3>
                     <form id="tripForm">
                         <div class="form-group">
                             <label class="form-label">Destination</label>
-                            <input type="text" class="form-input" id="tripDest" placeholder="e.g. Manali, Goa, Ladakh" required>
+                            <input type="text" class="form-input" id="tripDest" placeholder="e.g. Manali, Goa, Ladakh, Udaipur" required>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
@@ -188,8 +232,8 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label">Budget (₹)</label>
-                                <input type="number" class="form-input" id="tripBudget" placeholder="e.g. 25000" required>
+                                <label class="form-label">Total Budget (₹)</label>
+                                <input type="number" class="form-input" id="tripBudget" placeholder="e.g. 20000" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Travelers</label>
@@ -199,399 +243,457 @@
                         <div class="form-group">
                             <label class="form-label">Travel Style</label>
                             <select class="form-select" id="tripStyle">
-                                <option value="budget">Budget</option>
-                                <option value="mid-range" selected>Mid-Range</option>
-                                <option value="luxury">Luxury</option>
+                                <option value="budget">Budget Backpacker</option>
+                                <option value="mid-range" selected>Mid-Range Comfort</option>
+                                <option value="luxury">Luxury Elite</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Interests</label>
-                            <div style="display:flex; flex-wrap:wrap; gap:8px;">
-                                <label class="form-check"><input type="checkbox" value="adventure"> Adventure</label>
-                                <label class="form-check"><input type="checkbox" value="culture"> Culture</label>
-                                <label class="form-check"><input type="checkbox" value="nature"> Nature</label>
-                                <label class="form-check"><input type="checkbox" value="food"> Food</label>
-                                <label class="form-check"><input type="checkbox" value="relaxation"> Relaxation</label>
-                                <label class="form-check"><input type="checkbox" value="shopping"> Shopping</label>
+                            <label class="form-label">Interests & Preferences</label>
+                            <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:6px;">
+                                <label class="form-check" style="font-size:13px;"><input type="checkbox" value="adventure"> Adventure</label>
+                                <label class="form-check" style="font-size:13px;"><input type="checkbox" value="culture"> Culture & Temples</label>
+                                <label class="form-check" style="font-size:13px;"><input type="checkbox" value="nature"> Nature & Trekking</label>
+                                <label class="form-check" style="font-size:13px;"><input type="checkbox" value="food"> Local Food</label>
+                                <label class="form-check" style="font-size:13px;"><input type="checkbox" value="relaxation"> Relaxation</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary w-full btn-lg">🤖 Generate Itinerary</button>
+                        <button type="submit" class="btn btn-primary w-full btn-lg" style="margin-top:10px;">
+                            🤖 Generate AI Itinerary
+                        </button>
                     </form>
                 </div>
                 <div class="glass-card">
-                    <h3 style="margin-bottom:20px;">My Trip Plans</h3>
-                    <div id="myTrips"><p style="color:var(--text-muted);">No trips planned yet.</p></div>
+                    <h3 style="margin-bottom:18px; font-size:18px;">Saved Trip Plans</h3>
+                    <div id="myTrips"><p style="color:var(--text-muted); font-size:14px;">No trips planned yet.</p></div>
                 </div>
             </div>
-            <div id="itineraryResult" class="glass-card mt-3" style="display:none;">
-                <div class="flex-between mb-2">
-                    <h3>📅 Your AI-Generated Itinerary</h3>
+            <div id="itineraryResult" class="glass-card" style="display:none; margin-top:24px;">
+                <div class="flex-between mb-3" style="flex-wrap:wrap; gap:10px;">
+                    <h3 style="font-size:19px;">📅 Your AI-Generated Schedule</h3>
                     <button class="btn btn-success btn-sm" id="optimizeBtn">⚡ Optimize for Weather</button>
                 </div>
                 <div id="itineraryTimeline"></div>
             </div>
         </div>
 
-        <!-- Smart Booking Page -->
+        <!-- 4. Smart Booking Page -->
         <div id="page-booking" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>🏨 Smart Booking System</h1>
-                <p>Book hotels, cabs, and adventure activities</p>
+                <h1>🏨 Multi-Service Booking Engine</h1>
+                <p>Book verified hotels, intercity cabs, and adventure tours</p>
             </div>
-            <div class="tabs" id="bookingTabs">
-                <button class="tab active" data-tab="hotel">🏨 Hotels</button>
-                <button class="tab" data-tab="cab">🚕 Cabs</button>
-                <button class="tab" data-tab="adventure">🧗 Adventures</button>
-                <button class="tab" data-tab="my-bookings">📋 My Bookings</button>
+            <div class="tabs" id="bookingTabs" style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
+                <button class="btn btn-secondary btn-sm active" data-tab="hotel">🏨 Hotels</button>
+                <button class="btn btn-secondary btn-sm" data-tab="cab">🚕 Cabs & Rides</button>
+                <button class="btn btn-secondary btn-sm" data-tab="adventure">🧗 Adventures</button>
+                <button class="btn btn-secondary btn-sm" data-tab="my-bookings">📋 My Bookings</button>
             </div>
+            
             <div id="tab-hotel" class="tab-content active">
-                <div class="glass-card">
-                    <h3 style="margin-bottom:20px;">Book a Hotel</h3>
+                <div class="glass-card" style="max-width:700px;">
+                    <h3 style="margin-bottom:18px;">Book a Hotel</h3>
                     <form id="hotelBookingForm">
                         <div class="form-row">
                             <div class="form-group"><label class="form-label">Destination</label><input type="text" class="form-input" id="hotelDest" placeholder="e.g. Manali" required></div>
-                            <div class="form-group"><label class="form-label">Hotel Name</label><input type="text" class="form-input" id="hotelName" placeholder="Hotel name" required></div>
+                            <div class="form-group"><label class="form-label">Hotel Name</label><input type="text" class="form-input" id="hotelName" placeholder="e.g. Snow Valley Resort" required></div>
                         </div>
                         <div class="form-row">
                             <div class="form-group"><label class="form-label">Check-in</label><input type="date" class="form-input" id="hotelCheckIn" required></div>
                             <div class="form-group"><label class="form-label">Check-out</label><input type="date" class="form-input" id="hotelCheckOut" required></div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group"><label class="form-label">Room Type</label>
-                                <select class="form-select" id="hotelRoom"><option>Standard</option><option>Deluxe</option><option>Suite</option><option>Premium</option></select>
+                            <div class="form-group">
+                                <label class="form-label">Room Category</label>
+                                <select class="form-select" id="hotelRoom">
+                                    <option>Standard Room</option>
+                                    <option>Deluxe Mountain View</option>
+                                    <option>Luxury Suite</option>
+                                </select>
                             </div>
                             <div class="form-group"><label class="form-label">Guests</label><input type="number" class="form-input" id="hotelGuests" value="2" min="1"></div>
                         </div>
-                        <div class="form-group"><label class="form-label">Amount (₹)</label><input type="number" class="form-input" id="hotelAmount" placeholder="Total amount" required></div>
-                        <button type="submit" class="btn btn-primary btn-lg w-full">🏨 Book Hotel</button>
+                        <div class="form-group"><label class="form-label">Total Amount (₹)</label><input type="number" class="form-input" id="hotelAmount" placeholder="4500" required></div>
+                        <button type="submit" class="btn btn-primary btn-lg w-full">🏨 Confirm Hotel Reservation</button>
                     </form>
                 </div>
             </div>
-            <div id="tab-cab" class="tab-content">
-                <div class="glass-card">
-                    <h3 style="margin-bottom:20px;">Book a Cab</h3>
+
+            <div id="tab-cab" class="tab-content" style="display:none;">
+                <div class="glass-card" style="max-width:700px;">
+                    <h3 style="margin-bottom:18px;">Book a Cab</h3>
                     <form id="cabBookingForm">
                         <div class="form-row">
-                            <div class="form-group"><label class="form-label">Pickup Location</label><input type="text" class="form-input" id="cabPickup" placeholder="Pickup point" required></div>
-                            <div class="form-group"><label class="form-label">Drop Location</label><input type="text" class="form-input" id="cabDrop" placeholder="Drop point" required></div>
+                            <div class="form-group"><label class="form-label">Pickup Location</label><input type="text" class="form-input" id="cabPickup" placeholder="Pickup point (e.g. Delhi)" required></div>
+                            <div class="form-group"><label class="form-label">Drop Location</label><input type="text" class="form-input" id="cabDrop" placeholder="Drop point (e.g. Manali)" required></div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group"><label class="form-label">Cab Type</label>
-                                <select class="form-select" id="cabType"><option value="hatchback">Hatchback</option><option value="sedan">Sedan</option><option value="suv">SUV</option><option value="auto">Auto</option></select>
+                            <div class="form-group">
+                                <label class="form-label">Vehicle Type</label>
+                                <select class="form-select" id="cabType">
+                                    <option value="sedan">Sedan (Comfort 4 Seater)</option>
+                                    <option value="suv">SUV (Mountain Special 6 Seater)</option>
+                                    <option value="hatchback">Hatchback (Budget)</option>
+                                </select>
                             </div>
-                            <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="cabDate" required></div>
+                            <div class="form-group"><label class="form-label">Travel Date</label><input type="date" class="form-input" id="cabDate" required></div>
                         </div>
-                        <div class="form-group"><label class="form-label">Amount (₹)</label><input type="number" class="form-input" id="cabAmount" placeholder="Total amount" required></div>
-                        <button type="submit" class="btn btn-primary btn-lg w-full">🚕 Book Cab</button>
+                        <div class="form-group"><label class="form-label">Fare Amount (₹)</label><input type="number" class="form-input" id="cabAmount" placeholder="3200" required></div>
+                        <button type="submit" class="btn btn-primary btn-lg w-full">🚕 Confirm Cab Ride</button>
                     </form>
                 </div>
             </div>
-            <div id="tab-adventure" class="tab-content">
-                <div class="glass-card">
-                    <h3 style="margin-bottom:20px;">Book Adventure Activity</h3>
+
+            <div id="tab-adventure" class="tab-content" style="display:none;">
+                <div class="glass-card" style="max-width:700px;">
+                    <h3 style="margin-bottom:18px;">Book Adventure Activity</h3>
                     <form id="adventureBookingForm">
                         <div class="form-row">
-                            <div class="form-group"><label class="form-label">Activity Name</label><input type="text" class="form-input" id="advName" placeholder="e.g. Paragliding" required></div>
-                            <div class="form-group"><label class="form-label">Destination</label><input type="text" class="form-input" id="advDest" placeholder="Location" required></div>
+                            <div class="form-group"><label class="form-label">Activity Name</label><input type="text" class="form-input" id="advName" placeholder="e.g. Paragliding at Solang" required></div>
+                            <div class="form-group"><label class="form-label">Destination</label><input type="text" class="form-input" id="advDest" placeholder="e.g. Manali" required></div>
                         </div>
                         <div class="form-row">
                             <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="advDate" required></div>
-                            <div class="form-group"><label class="form-label">Slots/People</label><input type="number" class="form-input" id="advSlots" value="1" min="1"></div>
+                            <div class="form-group"><label class="form-label">Number of Slots</label><input type="number" class="form-input" id="advSlots" value="1" min="1"></div>
                         </div>
-                        <div class="form-group"><label class="form-label">Amount (₹)</label><input type="number" class="form-input" id="advAmount" placeholder="Total amount" required></div>
-                        <button type="submit" class="btn btn-accent btn-lg w-full">🧗 Book Activity</button>
+                        <div class="form-group"><label class="form-label">Activity Fee (₹)</label><input type="number" class="form-input" id="advAmount" placeholder="2500" required></div>
+                        <button type="submit" class="btn btn-accent btn-lg w-full">🧗 Confirm Adventure Slot</button>
                     </form>
                 </div>
             </div>
-            <div id="tab-my-bookings" class="tab-content">
+
+            <div id="tab-my-bookings" class="tab-content" style="display:none;">
                 <div id="myBookingsList"></div>
             </div>
         </div>
 
-        <!-- Payment Page -->
+        <!-- 5. Payment Center -->
         <div id="page-payment" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>💳 Payment Center</h1>
-                <p>Manage payments, apply coupons, and view receipts</p>
+                <h1>💳 Payment Center & Invoices</h1>
+                <p>Verified Razorpay transactions, coupons, and downloadable receipts</p>
             </div>
-            <div class="glass-card mb-3">
-                <h3 style="margin-bottom:20px;">💰 Payment History</h3>
-                <div id="paymentHistory"><p style="color:var(--text-muted);">No payments yet.</p></div>
+            <div class="glass-card">
+                <h3 style="margin-bottom:18px;">Payment Transaction Ledger</h3>
+                <div id="paymentHistory"><p style="color:var(--text-muted);">No payment history found.</p></div>
             </div>
         </div>
 
-        <!-- Price Tracker Page -->
+        <!-- 6. Price Tracker -->
         <div id="page-price-tracker" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>📊 Hotel Price Tracker</h1>
-                <p>Track prices, view trends, and set alerts</p>
+                <h1>📊 Dynamic Hotel Price Tracker</h1>
+                <p>Track price surges, review historical trends, and grab cheapest rates</p>
             </div>
-            <div class="form-group" style="max-width:400px;">
-                <input type="text" class="form-input" id="priceDestSearch" placeholder="🔍 Search destination for prices...">
+            <div class="form-group" style="max-width:420px; margin-bottom:20px;">
+                <input type="text" class="form-input" id="priceDestSearch" placeholder="🔍 Search destination (e.g. Manali)...">
             </div>
             <div id="priceResults" class="grid-3"></div>
         </div>
 
-        <!-- Weather Page -->
+        <!-- 7. Weather & Advisory -->
         <div id="page-weather" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>⛅ Weather & Suggestions</h1>
-                <p>Check weather and get activity recommendations</p>
+                <h1>⛅ Real-time Weather & Packing Guide</h1>
+                <p>Live meteorological forecasts with activity and clothing recommendations</p>
             </div>
-            <div class="flex flex-gap mb-3" style="max-width:500px;">
-                <input type="text" class="form-input" id="weatherCity" placeholder="Enter city name..." value="Manali">
-                <button class="btn btn-primary" id="checkWeatherBtn">🔍 Check</button>
+            <div style="display:flex; gap:10px; max-width:480px; margin-bottom:20px;">
+                <input type="text" class="form-input" id="weatherCity" placeholder="Enter city (e.g. Manali)" value="Manali">
+                <button class="btn btn-primary" id="checkWeatherBtn">Check</button>
             </div>
             <div class="grid-2">
                 <div id="weatherResult"></div>
-                <div id="weatherSuggestions" class="glass-card"><p style="color:var(--text-muted);">Enter a city to get weather data</p></div>
+                <div id="weatherSuggestions" class="glass-card">
+                    <p style="color:var(--text-muted);">Enter a city to fetch recommendations.</p>
+                </div>
             </div>
-            <div class="mt-3">
-                <h3 style="margin-bottom:16px;">📅 5-Day Forecast</h3>
-                <div class="forecast-grid" id="forecastGrid"></div>
+            <div style="margin-top:24px;">
+                <h3 style="margin-bottom:16px;">📅 5-Day Weather Outlook</h3>
+                <div class="forecast-grid" id="forecastGrid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px;"></div>
             </div>
         </div>
 
-        <!-- Navigation Page -->
+        <!-- 8. Navigation & Route -->
         <div id="page-navigation" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>🗺️ Navigation & Routes</h1>
-                <p>Plan your route with distance and time estimates</p>
+                <h1>🗺️ Smart Route Navigation</h1>
+                <p>Turn-by-turn route calculation, tolls, fuel estimates, and interactive map</p>
             </div>
-            <div class="glass-card mb-3">
+            <div class="glass-card" style="margin-bottom:20px;">
                 <div class="form-row">
-                    <div class="form-group"><label class="form-label">From</label><input type="text" class="form-input" id="navFrom" placeholder="Starting point"></div>
-                    <div class="form-group"><label class="form-label">To</label><input type="text" class="form-input" id="navTo" placeholder="Destination"></div>
+                    <div class="form-group"><label class="form-label">Start Point</label><input type="text" class="form-input" id="navFrom" placeholder="e.g. Delhi"></div>
+                    <div class="form-group"><label class="form-label">Destination</label><input type="text" class="form-input" id="navTo" placeholder="e.g. Manali"></div>
                 </div>
-                <button class="btn btn-primary" id="getRouteBtn">🗺️ Get Route</button>
+                <button class="btn btn-primary" id="getRouteBtn">🗺️ Calculate Route</button>
             </div>
             <div id="routeResult" style="display:none;" class="glass-card mb-3"></div>
-            <div class="map-container"><div id="map"></div></div>
-            <div class="glass-card mt-3">
-                <h3 style="margin-bottom:16px;">🌟 Popular Routes</h3>
+            <div id="navMap" style="margin-bottom:24px;"></div>
+            <div class="glass-card">
+                <h3 style="margin-bottom:16px;">🌟 Popular Scenic Highway Routes</h3>
                 <div id="popularRoutes"></div>
             </div>
         </div>
 
-        <!-- Nearby Services Page -->
+        <!-- 9. Nearby Essential Services -->
         <div id="page-nearby" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>📍 Nearby Services</h1>
-                <p>Find essential services near your location</p>
+                <h1>📍 Nearby Essential Services Radar</h1>
+                <p>Discover hospitals, police, ATMs, and petrol stations close to you</p>
             </div>
-            <div class="tabs" id="nearbyTabs">
-                <button class="tab active" data-type="restaurant">🍽️ Restaurants</button>
-                <button class="tab" data-type="hospital">🏥 Hospitals</button>
-                <button class="tab" data-type="atm">🏧 ATMs</button>
-                <button class="tab" data-type="police">👮 Police</button>
-                <button class="tab" data-type="pharmacy">💊 Pharmacy</button>
-                <button class="tab" data-type="petrolpump">⛽ Petrol</button>
+            <div class="tabs" id="nearbyTabs" style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
+                <button class="btn btn-secondary btn-sm active" data-type="restaurant">🍽️ Restaurants</button>
+                <button class="btn btn-secondary btn-sm" data-type="hospital">🏥 Hospitals</button>
+                <button class="btn btn-secondary btn-sm" data-type="atm">🏧 ATMs</button>
+                <button class="btn btn-secondary btn-sm" data-type="police">👮 Police</button>
+                <button class="btn btn-secondary btn-sm" data-type="pharmacy">💊 Pharmacy</button>
+                <button class="btn btn-secondary btn-sm" data-type="petrolpump">⛽ Petrol</button>
             </div>
             <div id="nearbyResults" class="grid-3"></div>
         </div>
 
-        <!-- Emergency SOS Page -->
+        <!-- 10. Emergency SOS Center -->
         <div id="page-emergency" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>🚨 Emergency Center</h1>
-                <p>Get immediate help in emergencies</p>
+                <h1>🚨 Emergency SOS Rescue Command</h1>
+                <p>Broadcast GPS coordinates and dial emergency assistance immediately</p>
             </div>
-            <div class="text-center mb-3" style="padding:40px;">
-                <button class="btn btn-sos" id="sosBtn">🆘 SEND SOS</button>
-                <p style="color:var(--text-muted); margin-top:16px;">Press to send SOS with your GPS location</p>
+            <div style="text-align:center; padding:36px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:var(--radius-xl); margin-bottom:24px;">
+                <button class="btn btn-danger btn-lg" id="sosBtn" style="font-size:20px; padding:20px 48px; box-shadow: 0 0 30px rgba(239,68,68,0.4);">
+                    🆘 TRIGGER EMERGENCY SOS
+                </button>
+                <p style="color:var(--text-secondary); margin-top:14px; font-size:13px;">
+                    Sends your exact live GPS coordinates to local police and emergency contacts
+                </p>
             </div>
             <div class="stats-grid">
-                <div class="stat-card" style="cursor:pointer;" onclick="window.open('tel:100')"><div class="stat-icon red">👮</div><div class="stat-info"><h3>100</h3><p>Police</p></div></div>
-                <div class="stat-card" style="cursor:pointer;" onclick="window.open('tel:108')"><div class="stat-icon red">🚑</div><div class="stat-info"><h3>108</h3><p>Ambulance</p></div></div>
-                <div class="stat-card" style="cursor:pointer;" onclick="window.open('tel:101')"><div class="stat-icon red">🚒</div><div class="stat-info"><h3>101</h3><p>Fire</p></div></div>
-                <div class="stat-card" style="cursor:pointer;" onclick="window.open('tel:1363')"><div class="stat-icon blue">🏔️</div><div class="stat-info"><h3>1363</h3><p>Tourist Helpline</p></div></div>
+                <div class="stat-card" style="cursor:pointer;" onclick="window.open('tel:100')">
+                    <div class="stat-icon red">👮</div>
+                    <div class="stat-info"><h3>100</h3><p>Police Emergency</p></div>
+                </div>
+                <div class="stat-card" style="cursor:pointer;" onclick="window.open('tel:108')">
+                    <div class="stat-icon red">🚑</div>
+                    <div class="stat-info"><h3>108</h3><p>Ambulance</p></div>
+                </div>
+                <div class="stat-card" style="cursor:pointer;" onclick="window.open('tel:101')">
+                    <div class="stat-icon red">🚒</div>
+                    <div class="stat-info"><h3>101</h3><p>Fire Service</p></div>
+                </div>
+                <div class="stat-card" style="cursor:pointer;" onclick="window.open('tel:1363')">
+                    <div class="stat-icon blue">🏔️</div>
+                    <div class="stat-info"><h3>1363</h3><p>Tourist Helpline</p></div>
+                </div>
             </div>
-            <div class="glass-card mt-3">
-                <h3 style="margin-bottom:16px;">🛡️ Safety Tips</h3>
+            <div class="glass-card" style="margin-top:24px;">
+                <h3 style="margin-bottom:16px;">🛡️ Safe Travel Protocols</h3>
                 <div id="safetyTips"></div>
             </div>
         </div>
 
-        <!-- Expense Splitter Page -->
+        <!-- 11. Expense Splitter -->
         <div id="page-expense" class="page-content" style="display:none;">
             <div class="page-header">
                 <h1>💰 Travel Expense Splitter</h1>
-                <p>Split expenses and track who owes whom</p>
+                <p>Divide trip bills among friends with automated owe/owed settlements</p>
             </div>
             <div class="grid-2">
                 <div class="glass-card">
-                    <h3 style="margin-bottom:20px;">Create Expense Group</h3>
+                    <h3 style="margin-bottom:18px;">Create New Trip Group</h3>
                     <form id="expenseGroupForm">
-                        <div class="form-group"><label class="form-label">Group Name</label><input type="text" class="form-input" id="expGroupName" placeholder="e.g. Goa Trip Gang" required></div>
-                        <div class="form-group"><label class="form-label">Trip Destination</label><input type="text" class="form-input" id="expTripDest" placeholder="e.g. Goa"></div>
-                        <div class="form-group"><label class="form-label">Members (comma separated names)</label><input type="text" class="form-input" id="expMembers" placeholder="Rahul, Priya, Amit" required></div>
-                        <button type="submit" class="btn btn-primary w-full">👥 Create Group</button>
+                        <div class="form-group"><label class="form-label">Group Name</label><input type="text" class="form-input" id="expGroupName" placeholder="e.g. Manali Roadtrip Gang" required></div>
+                        <div class="form-group"><label class="form-label">Destination</label><input type="text" class="form-input" id="expTripDest" placeholder="e.g. Manali"></div>
+                        <div class="form-group"><label class="form-label">Members (Comma-separated)</label><input type="text" class="form-input" id="expMembers" placeholder="Abhishek, Priya, Rahul" required></div>
+                        <button type="submit" class="btn btn-primary w-full">👥 Create Expense Group</button>
                     </form>
                 </div>
                 <div class="glass-card">
-                    <h3 style="margin-bottom:20px;">My Groups</h3>
-                    <div id="myExpGroups"><p style="color:var(--text-muted);">No expense groups yet.</p></div>
+                    <h3 style="margin-bottom:18px;">Your Active Trip Groups</h3>
+                    <div id="myExpGroups"><p style="color:var(--text-muted);">No groups created yet.</p></div>
                 </div>
             </div>
-            <div id="expenseDetails" class="glass-card mt-3" style="display:none;"></div>
+            <div id="expenseDetails" class="glass-card" style="display:none; margin-top:24px;"></div>
         </div>
 
-        <!-- Road Condition Page -->
+        <!-- 12. Road Conditions & Alerts -->
         <div id="page-road-condition" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>🛣️ Road Condition Reports</h1>
-                <p>Report and view road conditions for safe travel</p>
+                <h1>🛣️ Highway & Road Conditions</h1>
+                <p>Real-time reports on mountain pass blockages, landslides, and weather hazards</p>
             </div>
             <div class="grid-2">
                 <div class="glass-card">
-                    <h3 style="margin-bottom:20px;">Submit Report</h3>
+                    <h3 style="margin-bottom:18px;">Submit Road Condition Report</h3>
                     <form id="roadReportForm">
-                        <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="roadLocation" placeholder="Road/Location name" required></div>
+                        <div class="form-group"><label class="form-label">Location / Highway</label><input type="text" class="form-input" id="roadLocation" placeholder="e.g. NH-3 near Atal Tunnel" required></div>
                         <div class="form-row">
-                            <div class="form-group"><label class="form-label">Type</label>
-                                <select class="form-select" id="roadType"><option value="blocked">🚧 Road Blocked</option><option value="landslide">⛰️ Landslide</option><option value="waterlogging">🌊 Waterlogging</option><option value="traffic">🚗 Heavy Traffic</option><option value="damaged">🕳️ Damaged Road</option><option value="construction">🏗️ Construction</option></select>
+                            <div class="form-group">
+                                <label class="form-label">Condition Type</label>
+                                <select class="form-select" id="roadType">
+                                    <option value="blocked">🚧 Road Blocked</option>
+                                    <option value="landslide">⛰️ Landslide Alert</option>
+                                    <option value="waterlogging">🌊 Waterlogging</option>
+                                    <option value="traffic">🚗 Heavy Jam</option>
+                                    <option value="construction">🏗️ Under Construction</option>
+                                </select>
                             </div>
-                            <div class="form-group"><label class="form-label">Severity</label>
-                                <select class="form-select" id="roadSeverity"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option><option value="critical">Critical</option></select>
+                            <div class="form-group">
+                                <label class="form-label">Severity</label>
+                                <select class="form-select" id="roadSeverity">
+                                    <option value="low">Low Impact</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High Caution</option>
+                                    <option value="critical">Critical Closure</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="roadDesc" placeholder="Describe the condition..." required></textarea></div>
-                        <button type="submit" class="btn btn-warning w-full">🛣️ Submit Report</button>
+                        <div class="form-group"><label class="form-label">Detailed Notes</label><textarea class="form-textarea" id="roadDesc" placeholder="Describe the road issue..." required></textarea></div>
+                        <button type="submit" class="btn btn-warning w-full">🛣️ Submit Road Alert</button>
                     </form>
                 </div>
                 <div class="glass-card">
-                    <h3 style="margin-bottom:16px;">Recent Alerts</h3>
-                    <div id="roadAlerts"><p style="color:var(--text-muted);">No alerts</p></div>
+                    <h3 style="margin-bottom:18px;">Recent Live Highway Alerts</h3>
+                    <div id="roadAlerts"><p style="color:var(--text-muted);">No active road alerts.</p></div>
                 </div>
             </div>
         </div>
 
-        <!-- Permit Checker Page -->
+        <!-- 13. Permit Checker -->
         <div id="page-permit" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>📋 Permit & Entry Checker</h1>
-                <p>Check if you need permits for your destination</p>
+                <h1>📋 Inner Line Permit (ILP) Guide</h1>
+                <p>Check mandatory environmental and restricted zone entry permits</p>
             </div>
-            <div class="glass-card mb-3">
-                <div class="flex flex-gap" style="max-width:600px;">
+            <div class="glass-card" style="margin-bottom:20px;">
+                <div style="display:flex; gap:12px; max-width:600px;">
                     <select class="form-select" id="permitDest" style="flex:1;">
-                        <option value="">Select Destination</option>
-                        <option value="Ladakh">Ladakh</option>
-                        <option value="Sikkim">Sikkim</option>
+                        <option value="">Select Target Destination</option>
+                        <option value="Ladakh">Ladakh (Pangong & Nubra)</option>
+                        <option value="Sikkim">Sikkim (Nathula Pass)</option>
                         <option value="Andaman and Nicobar Islands">Andaman & Nicobar</option>
                         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                         <option value="Lakshadweep">Lakshadweep</option>
-                        <option value="Manali">Manali</option>
+                        <option value="Manali">Manali (Rohtang Pass)</option>
                         <option value="Goa">Goa</option>
                     </select>
-                    <button class="btn btn-primary" id="checkPermitBtn">🔍 Check</button>
+                    <button class="btn btn-primary" id="checkPermitBtn">🔍 Verify</button>
                 </div>
             </div>
             <div id="permitResult"></div>
         </div>
 
-        <!-- Network Coverage Page -->
+        <!-- 14. Network Coverage Heatmap -->
         <div id="page-network" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>📶 Network Coverage Map</h1>
-                <p>Check mobile network coverage before you travel</p>
+                <h1>📶 Telecom Signal Coverage & Dead Zones</h1>
+                <p>Check Jio, Airtel, and Vi signal strength across remote mountain routes</p>
             </div>
-            <div class="glass-card mb-3">
-                <h3 style="margin-bottom:16px;">Known Dead Zones</h3>
+            <div class="glass-card" style="margin-bottom:20px;">
+                <h3 style="margin-bottom:16px;">Known Mountain Dead Zones</h3>
                 <div id="deadZonesList"></div>
             </div>
             <div class="glass-card">
-                <h3 style="margin-bottom:20px;">Report Coverage</h3>
+                <h3 style="margin-bottom:18px;">Report Signal Status</h3>
                 <form id="coverageReportForm">
                     <div class="form-row">
-                        <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="covLocation" placeholder="Location name" required></div>
-                        <div class="form-group"><label class="form-label">Operator</label>
-                            <select class="form-select" id="covOperator"><option>Jio</option><option>Airtel</option><option>Vi</option><option>BSNL</option></select>
+                        <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="covLocation" placeholder="e.g. Rohtang Top" required></div>
+                        <div class="form-group">
+                            <label class="form-label">Telecom Operator</label>
+                            <select class="form-select" id="covOperator">
+                                <option>Jio</option>
+                                <option>Airtel</option>
+                                <option>Vi</option>
+                                <option>BSNL</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label class="form-label">Signal Strength (0-100)</label><input type="number" class="form-input" id="covSignal" min="0" max="100" value="50"></div>
-                        <div class="form-group"><label class="form-label">Coverage Type</label>
-                            <select class="form-select" id="covType"><option>4G</option><option>3G</option><option>2G</option><option>none</option></select>
+                        <div class="form-group"><label class="form-label">Signal Strength (0-100%)</label><input type="number" class="form-input" id="covSignal" min="0" max="100" value="50"></div>
+                        <div class="form-group">
+                            <label class="form-label">Network Type</label>
+                            <select class="form-select" id="covType"><option>5G / 4G</option><option>3G</option><option>2G</option><option>None (Dead Zone)</option></select>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">📶 Submit Report</button>
+                    <button type="submit" class="btn btn-primary">📶 Submit Coverage Data</button>
                 </form>
             </div>
         </div>
 
-        <!-- Bluetooth/Offline Messaging Page -->
+        <!-- 15. Offline Bluetooth Mesh -->
         <div id="page-bluetooth" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>📡 Offline Messaging</h1>
-                <p>Communicate with nearby travelers via Bluetooth</p>
+                <h1>📡 Offline Bluetooth Beacon & Mesh Sync</h1>
+                <p>Peer-to-peer distress beacons when cellular internet is unavailable</p>
             </div>
             <div class="grid-2">
                 <div class="glass-card">
-                    <h3 style="margin-bottom:20px;">Nearby Devices</h3>
-                    <button class="btn btn-secondary mb-2" id="discoverBtn">📡 Discover Nearby</button>
+                    <h3 style="margin-bottom:18px;">Nearby Bluetooth Nodes</h3>
+                    <button class="btn btn-secondary btn-sm" id="discoverBtn" style="margin-bottom:16px;">
+                        📡 Scan Nearby Devices
+                    </button>
                     <div id="nearbyDevices"></div>
                 </div>
                 <div class="glass-card">
-                    <h3 style="margin-bottom:20px;">Send Message</h3>
+                    <h3 style="margin-bottom:18px;">Broadcast Distress Message</h3>
                     <form id="btMessageForm">
-                        <div class="form-group"><label class="form-label">Recipient</label><input type="text" class="form-input" id="btRecipient" placeholder="Name or 'Nearby Travellers'" value="Nearby Travellers"></div>
-                        <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" id="btMessage" placeholder="Type your message..." required></textarea></div>
-                        <div class="form-group"><label class="form-label">Type</label>
-                            <select class="form-select" id="btType"><option value="text">📝 Text</option><option value="sos">🆘 SOS</option><option value="location">📍 Location</option></select>
+                        <div class="form-group"><label class="form-label">Broadcast Target</label><input type="text" class="form-input" id="btRecipient" value="Nearby Travellers"></div>
+                        <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" id="btMessage" placeholder="Type distress or location message..." required></textarea></div>
+                        <div class="form-group">
+                            <label class="form-label">Signal Priority</label>
+                            <select class="form-select" id="btType"><option value="text">📝 Regular Text</option><option value="sos">🆘 Critical SOS</option><option value="location">📍 GPS Location</option></select>
                         </div>
-                        <button type="submit" class="btn btn-primary w-full">📤 Send</button>
+                        <button type="submit" class="btn btn-primary w-full">📤 Broadcast Signal</button>
                     </form>
                 </div>
             </div>
-            <div class="glass-card mt-3">
-                <div class="flex-between mb-2">
-                    <h3>💬 Messages</h3>
-                    <button class="btn btn-success btn-sm" id="syncBtn">🔄 Sync All</button>
+            <div class="glass-card" style="margin-top:24px;">
+                <div class="flex-between mb-3">
+                    <h3>💬 Offline Packet Ledger</h3>
+                    <button class="btn btn-success btn-sm" id="syncBtn">🔄 Synchronize Packets</button>
                 </div>
                 <div id="btMessages"></div>
             </div>
         </div>
 
-        <!-- Profile Page -->
+        <!-- 16. Profile Page -->
         <div id="page-profile" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>👤 My Profile</h1>
-                <p>Manage your account settings</p>
+                <h1>👤 My Profile & Preferences</h1>
+                <p>Manage your account credentials and emergency contacts</p>
             </div>
             <div class="glass-card" style="max-width:600px;">
                 <form id="profileForm">
-                    <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" id="profName"></div>
-                    <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="profEmail" disabled></div>
-                    <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="profPhone"></div>
-                    <div class="form-group"><label class="form-label">Role</label><input type="text" class="form-input" id="profRole" disabled></div>
-                    <button type="submit" class="btn btn-primary">💾 Update Profile</button>
+                    <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-input" id="profName"></div>
+                    <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-input" id="profEmail" disabled style="opacity:0.6;"></div>
+                    <div class="form-group"><label class="form-label">Phone Number</label><input type="tel" class="form-input" id="profPhone"></div>
+                    <div class="form-group"><label class="form-label">Account Role</label><input type="text" class="form-input" id="profRole" disabled style="opacity:0.6;"></div>
+                    <button type="submit" class="btn btn-primary">💾 Save Profile Settings</button>
                 </form>
             </div>
         </div>
 
-        <!-- Admin Page -->
+        <!-- 17. Admin Management -->
         <div id="page-admin" class="page-content" style="display:none;">
             <div class="page-header">
-                <h1>⚙️ Admin Panel</h1>
-                <p>Manage users, reports, and system</p>
+                <h1>⚙️ Administrative Command Center</h1>
+                <p>Platform user directory, safety verifications, and booking ledgers</p>
             </div>
-            <div class="tabs">
-                <button class="tab active" onclick="loadAdminUsers()">👥 Users</button>
-                <button class="tab" onclick="loadAdminReports()">🛣️ Road Reports</button>
-                <button class="tab" onclick="loadAdminBookings()">🏨 Bookings</button>
+            <div class="tabs" style="display:flex; gap:8px; margin-bottom:20px;">
+                <button class="btn btn-secondary btn-sm active" onclick="loadAdminUsers()">👥 Users Directory</button>
+                <button class="btn btn-secondary btn-sm" onclick="loadAdminReports()">🛣️ Verify Road Reports</button>
+                <button class="btn btn-secondary btn-sm" onclick="loadAdminBookings()">🏨 All Bookings</button>
             </div>
-            <div id="adminContent" class="mt-2"></div>
+            <div id="adminContent"></div>
         </div>
     </main>
 
+    <!-- Toast Notification Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Modal -->
+    <!-- Universal Modal Overlay -->
     <div class="modal-overlay" id="modalOverlay">
-        <div class="modal" id="modalContent"></div>
+        <div class="modal-box" id="modalContent"></div>
     </div>
 
+    <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/dashboard.js"></script>

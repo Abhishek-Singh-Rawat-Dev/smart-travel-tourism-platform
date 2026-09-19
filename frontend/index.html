@@ -3,170 +3,663 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Smart Travel & Tourism Platform - AI-powered trip planning, smart booking, emergency SOS, expense splitting, and more. Your ultimate travel companion.">
-    <title>Smart Travel & Tourism Platform | Your Ultimate Travel Companion</title>
+    <meta name="description" content="TravelSmart — AI-powered trip planning, smart booking, emergency SOS, expense splitting, and 15+ modern features. Your ultimate travel platform.">
+    <title>TravelSmart | The Future of Smart Tourism</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="landing-nav" id="navbar">
-        <div class="brand">
-            <div class="icon">🌍</div>
-            <span>TravelSmart</span>
-        </div>
-        <div class="nav-links">
-            <a href="/pages/login.html" class="btn btn-secondary btn-sm">Login</a>
-            <a href="/pages/register.html" class="btn btn-primary btn-sm">Get Started</a>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="bg-particles" id="particles"></div>
-        <div class="hero-content">
-            <h1>
-                Smart Travel &<br>
-                <span class="gradient-text">Tourism Platform</span>
-            </h1>
-            <p>
-                AI-powered trip planning, smart booking, real-time weather, emergency SOS, 
-                expense splitting, and 15+ features to make your travel experience extraordinary.
-            </p>
-            <div class="hero-buttons">
-                <a href="/pages/register.html" class="btn btn-primary btn-lg">
-                    🚀 Start Exploring
-                </a>
-                <a href="#features" class="btn btn-secondary btn-lg">
-                    ✨ View Features
-                </a>
+    <!-- Outer Viewport Frame -->
+    <div class="hero-viewport-frame">
+        <!-- Hero Container (clips everything inside) -->
+        <div class="hero-container-clipped">
+            <!-- Background Video -->
+            <video
+                autoplay
+                loop
+                muted
+                playsinline
+                preload="auto"
+                poster="https://images.unsplash.com/photo-1557683316-973673baf926?w=1600&q=60"
+                class="hero-bg-video"
+            >
+                <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260424_064411_9e9d7f84-9277-41f4-ab10-59172d89e6be.mp4" type="video/mp4">
+            </video>
+
+            <!-- Video Dark Overlay -->
+            <div class="hero-video-overlay"></div>
+
+            <!-- Foreground Content Layer -->
+            <div class="hero-content-layer">
+                <!-- Floating Pill Navbar -->
+                <header class="nav-pill-wrapper">
+                    <nav class="nav-pill">
+                        <!-- Brand Logo -->
+                        <a href="/" class="nav-brand">
+                            <svg viewBox="0 0 32 32" style="width: 28px; height: 28px; flex-shrink: 0;">
+                                <circle cx="26" cy="16" r="3.5" fill="#ef4d23" />
+                                <circle cx="23.07" cy="23.07" r="3.5" fill="#ef4d23" />
+                                <circle cx="16" cy="26" r="3.5" fill="#ef4d23" />
+                                <circle cx="8.93" cy="23.07" r="3.5" fill="#ef4d23" />
+                                <circle cx="6" cy="16" r="3.5" fill="#ef4d23" />
+                                <circle cx="8.93" cy="8.93" r="3.5" fill="#ef4d23" />
+                                <circle cx="16" cy="6" r="3.5" fill="#ef4d23" />
+                                <circle cx="23.07" cy="8.93" r="3.5" fill="#ef4d23" />
+                                <circle cx="16" cy="16" r="3.5" fill="#ef4d23" />
+                            </svg>
+                            <span>TravelSmart</span>
+                        </a>
+
+                        <!-- Desktop Navigation Links -->
+                        <div class="nav-links-desktop">
+                            <a href="#home" class="active-link">Home</a>
+                            <a href="#features">Features</a>
+                            <a href="#destinations">Destinations</a>
+                            <a href="#safety">Safety SOS</a>
+                            <a href="/pages/dashboard.html">Dashboard</a>
+                        </div>
+
+                        <!-- Right Actions -->
+                        <div class="nav-right-actions">
+                            <a href="/pages/login.html" class="btn btn-secondary btn-sm" style="color:#0f172a; border-color:#cbd5e1; background:#f1f5f9;">
+                                Login
+                            </a>
+                            <a href="/pages/register.html" class="nav-early-btn">
+                                <span>Get Started</span>
+                                <span class="nav-arrow-circle">→</span>
+                            </a>
+                            <!-- Mobile Hamburger Button -->
+                            <button type="button" class="nav-hamburger-btn" id="mobileNavToggle" aria-label="Toggle Navigation">
+                                ☰
+                            </button>
+                        </div>
+
+                        <!-- Mobile Dropdown Menu -->
+                        <div class="mobile-dropdown-menu" id="mobileDropdown" style="display: none;">
+                            <a href="#home" class="mobile-nav-link">Home</a>
+                            <a href="#features" class="mobile-nav-link">Features (15 Modules)</a>
+                            <a href="#destinations" class="mobile-nav-link">Top Destinations</a>
+                            <a href="#safety" class="mobile-nav-link">Emergency SOS</a>
+                            <a href="/pages/dashboard.html" class="mobile-nav-link" style="color: var(--primary); font-weight:700;">Open Dashboard →</a>
+                        </div>
+                    </nav>
+                </header>
+
+                <!-- Centered Hero Headline -->
+                <div class="hero-center-content">
+                    <div class="hero-pill-badge">
+                        <span class="dot-pulse"></span>
+                        <span>Next-Gen Tourism Ecosystem</span>
+                    </div>
+
+                    <h1 class="hero-title-clamp">
+                        Shaping <span class="font-editorial">Travel</span><br>
+                        of tomorrow
+                    </h1>
+
+                    <p class="hero-sub-clamp">
+                        The All-In-One Intelligent Platform Powering AI Trip Planning, Real-Time Emergency SOS, Smart Bookings & Group Logistics.
+                    </p>
+
+                    <div class="hero-cta-cluster">
+                        <a href="/pages/register.html" class="hero-dark-cta">
+                            <span>Get Started Free</span>
+                            <span class="circle-icon">→</span>
+                        </a>
+                        <a href="#features" class="btn btn-secondary btn-lg">
+                            ✨ Explore 15+ Features
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Floating Travel Preview Tray (3 Cards with Gauges) -->
+                <div class="dashboard-preview-tray">
+                    <div class="tray-inner">
+                        <div class="tray-cards-grid">
+                            
+                            <!-- Card 1 — Live Travel Conditions -->
+                            <div class="tray-card">
+                                <div>
+                                    <div class="tray-card-header">
+                                        <span class="highlight-orange">Live Conditions</span>
+                                        <span class="sub-label">Manali &bull; HP</span>
+                                    </div>
+                                    <div style="display:flex; align-items:baseline; gap:8px; margin-top:8px;">
+                                        <div class="tray-metric-num" style="margin-top:0;">24°C</div>
+                                        <span style="background:#fef2f2; color:#ef4444; border-radius:9999px; padding:2px 8px; font-size:11px; font-weight:600;">
+                                            Sunny &bull; Clear
+                                        </span>
+                                    </div>
+                                    <p style="font-size:11px; color:#94a3b8; margin-top:3px;">Optimal Season: Snow & Sightseeing</p>
+                                    
+                                    <div style="text-align:center; font-size:12px; font-weight:600; color:#475569; margin-top:10px;">
+                                        Travel Satisfaction Score
+                                    </div>
+
+                                    <!-- 92% Arc Gauge SVG -->
+                                    <div style="width:100%; max-width:220px; margin:4px auto 0 auto;">
+                                        <svg viewBox="0 0 200 115" style="width:100%; height:auto;">
+                                            <!-- Ticks generated via script or clean markup -->
+                                            <path d="M 25 100 A 75 75 0 0 1 175 100" fill="none" stroke="#e2e8f0" stroke-width="12" stroke-linecap="round" />
+                                            <path d="M 25 100 A 75 75 0 0 1 163 60" fill="none" stroke="#ef4d23" stroke-width="12" stroke-linecap="round" />
+                                            <text x="100" y="98" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">92%</text>
+                                        </svg>
+                                        <div style="display:flex; justify-content:space-between; font-size:11px; color:#64748b; font-weight:600; margin-top:-6px; padding:0 8px;">
+                                            <span>389K Tourists</span>
+                                            <span>425K Target</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tray-toggle-pill">
+                                    <button type="button" class="active">Impressions</button>
+                                    <button type="button">Bookings</button>
+                                </div>
+                            </div>
+
+                            <!-- Card 2 — Quick Trip Estimator Form -->
+                            <div class="tray-card">
+                                <div style="display:flex; flex-direction:column; gap:8px;">
+                                    <div>
+                                        <label style="font-size:11px; font-weight:600; color:#475569; display:block; margin-bottom:3px;">
+                                            Destination
+                                        </label>
+                                        <div style="display:flex; justify-content:space-between; align-items:center; border:1px solid #cbd5e1; border-radius:8px; padding:6px 10px; font-size:12px; font-weight:600; color:#1e293b;">
+                                            <span>🏔️ Manali, Himachal</span>
+                                            <span>▾</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label style="font-size:11px; font-weight:600; color:#475569; display:block; margin-bottom:3px;">
+                                            Trip Duration
+                                        </label>
+                                        <div style="display:flex; justify-content:space-between; align-items:center; border:1px solid #cbd5e1; border-radius:8px; padding:6px 10px; font-size:12px; font-weight:600; color:#1e293b;">
+                                            <span>3 Days / 2 Nights</span>
+                                            <span>▾</span>
+                                        </div>
+                                    </div>
+
+                                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                                        <div>
+                                            <label style="font-size:11px; font-weight:600; color:#475569; display:block; margin-bottom:3px;">
+                                                Travelers
+                                            </label>
+                                            <div style="position:relative;">
+                                                <span style="position:absolute; left:8px; top:6px; color:#94a3b8; font-size:11px;">#</span>
+                                                <input type="text" value="2" readonly style="width:100%; border:1px solid #cbd5e1; border-radius:8px; padding:6px 8px 6px 22px; font-size:12px; font-weight:700; color:#1e293b;">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label style="font-size:11px; font-weight:600; color:#475569; display:block; margin-bottom:3px;">
+                                                Est. Budget
+                                            </label>
+                                            <div style="position:relative;">
+                                                <span style="position:absolute; left:8px; top:6px; color:#94a3b8; font-size:11px;">₹</span>
+                                                <input type="text" value="12,500" readonly style="width:100%; border:1px solid #cbd5e1; border-radius:8px; padding:6px 8px 6px 20px; font-size:12px; font-weight:700; color:#1e293b;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="display:flex; align-items:center; gap:8px; margin-top:12px;">
+                                    <a href="/pages/dashboard.html" style="background:#ef4d23; color:white; border-radius:8px; padding:6px 14px; font-size:12px; font-weight:600; text-align:center; text-decoration:none;">
+                                        Plan Now
+                                    </a>
+                                    <span style="font-size:12px; color:#64748b; text-decoration:underline; cursor:pointer;">Reset</span>
+                                    <span style="margin-left:auto; color:#94a3b8; font-size:14px; cursor:pointer;">✕</span>
+                                </div>
+                            </div>
+
+                            <!-- Card 3 — Safety & Road Health -->
+                            <div class="tray-card">
+                                <div>
+                                    <div class="tray-card-header">
+                                        <span class="highlight-orange">Safety & Route</span>
+                                        <span class="sub-label">Live Radar</span>
+                                    </div>
+                                    <div style="display:flex; align-items:baseline; gap:8px; margin-top:8px;">
+                                        <div class="tray-metric-num" style="margin-top:0;">0</div>
+                                        <span style="background:#ecfdf5; color:#059669; border-radius:9999px; padding:2px 8px; font-size:11px; font-weight:600;">
+                                            ✓ 0 Hazards Reported
+                                        </span>
+                                    </div>
+                                    <p style="font-size:11px; color:#94a3b8; margin-top:3px;">Rohtang & Atal Tunnel Open</p>
+
+                                    <!-- 68% Gauge -->
+                                    <div style="width:100%; max-width:220px; margin:12px auto 0 auto;">
+                                        <svg viewBox="0 0 200 115" style="width:100%; height:auto;">
+                                            <path d="M 25 100 A 75 75 0 0 1 175 100" fill="none" stroke="#e2e8f0" stroke-width="12" stroke-linecap="round" />
+                                            <path d="M 25 100 A 75 75 0 0 1 135 45" fill="none" stroke="#06b6d4" stroke-width="12" stroke-linecap="round" />
+                                            <text x="100" y="98" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">98%</text>
+                                        </svg>
+                                        <div style="text-align:center; font-size:11px; color:#64748b; font-weight:600; margin-top:-6px;">
+                                            Network & GPS Coverage
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tray-toggle-pill">
+                                    <button type="button" class="active">Route Status</button>
+                                    <button type="button">SOS Radar</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Features Section -->
-    <section class="features-section" id="features">
+    <!-- 15+ Feature Bento Grid Section -->
+    <section class="features-bento-section" id="features">
         <div class="container">
-            <h2>🎯 <span class="gradient-text">15+ Powerful Features</span></h2>
-            <div class="features-grid">
-                <div class="feature-card animate-in">
-                    <div class="icon">🤖</div>
+            <div class="section-header-centered">
+                <span class="badge badge-orange" style="margin-bottom: 12px;">Full-Stack Capabilities</span>
+                <h2>15+ Powerful Modules Built for Modern Travelers</h2>
+                <p>From automated AI itineraries to peer-to-peer offline mesh communication, every tool is engineered for safe and smart journeys.</p>
+            </div>
+
+            <div class="bento-grid">
+                <!-- 1. AI Trip Planner -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">🤖</div>
                     <h3>AI Trip Planner</h3>
-                    <p>Smart itinerary generation based on your preferences, budget, and weather conditions.</p>
+                    <p>Dynamic day-by-day itineraries tailored to your exact budget, traveler count, seasonal weather, and travel interests.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-purple">AI Driven</span>
+                        <a href="/pages/dashboard.html">Try Module →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">🏨</div>
-                    <h3>Smart Booking</h3>
-                    <p>Book hotels, cabs, and adventure activities with instant confirmation.</p>
+
+                <!-- 2. Smart Booking -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">🏨</div>
+                    <h3>Smart Booking Engine</h3>
+                    <p>Instant reservation of luxury resorts, budget hostels, verified cabs, and adventure activities with immediate confirmation.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-cyan">Hotels & Cabs</span>
+                        <a href="/pages/dashboard.html">Book Now →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">💳</div>
-                    <h3>Secure Payments</h3>
-                    <p>Razorpay-powered payments with digital receipts and transaction history.</p>
+
+                <!-- 3. Secure Payments -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">💳</div>
+                    <h3>Secure Payment Gateway</h3>
+                    <p>Razorpay-powered checkout flow with automated digital GST invoice generation, transaction history, and instant receipts.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-green">Razorpay Ready</span>
+                        <a href="/pages/dashboard.html">View Checkout →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">📊</div>
-                    <h3>Price Tracker</h3>
-                    <p>Track hotel prices, view trends, and set alerts for price drops.</p>
+
+                <!-- 4. Dynamic Price Tracker -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">📊</div>
+                    <h3>Dynamic Price Tracker</h3>
+                    <p>Historical price analytics that predict fare surges and notify you when hotel and adventure rates drop to their lowest.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-orange">Price Intelligence</span>
+                        <a href="/pages/dashboard.html">Track Prices →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">📍</div>
-                    <h3>Nearby Services</h3>
-                    <p>Find restaurants, hospitals, ATMs, and police stations near you.</p>
+
+                <!-- 5. Nearby Services -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">📍</div>
+                    <h3>Nearby Essential Services</h3>
+                    <p>Instant radar discovery for hospitals, police booths, 24/7 pharmacies, ATMs, and petrol pumps within a 5 km radius.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-cyan">GPS Radar</span>
+                        <a href="/pages/dashboard.html">Find Nearby →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">🗺️</div>
-                    <h3>Navigation</h3>
-                    <p>Route planning with distance, time estimates, and turn-by-turn directions.</p>
+
+                <!-- 6. Navigation -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">🗺️</div>
+                    <h3>Smart Route Navigation</h3>
+                    <p>Interactive Leaflet route mapping with distance calculations, travel time estimates, toll costs, and fuel consumption.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-purple">Turn-by-Turn</span>
+                        <a href="/pages/dashboard.html">Open Map →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">⛅</div>
-                    <h3>Weather Insights</h3>
-                    <p>Real-time weather and 5-day forecasts with activity suggestions.</p>
+
+                <!-- 7. Weather Insights -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">⛅</div>
+                    <h3>Weather & Packing Advisory</h3>
+                    <p>Real-time temperature and 5-day forecasts with automated packing tips (warm jackets, rain gear, sunscreen) for your destination.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-cyan">Live Forecast</span>
+                        <a href="/pages/dashboard.html">Check Weather →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">🏔️</div>
-                    <h3>Explore Destinations</h3>
-                    <p>Discover 20+ curated Indian destinations with detailed info.</p>
+
+                <!-- 8. Explore Destinations -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">🏔️</div>
+                    <h3>Destination Catalog</h3>
+                    <p>Curated insights on 20+ top Indian spots: best seasons, climate, entry permits, popular attractions, and traveler ratings.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-orange">20+ Places</span>
+                        <a href="/pages/dashboard.html">Explore Catalog →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">🚨</div>
-                    <h3>Emergency SOS</h3>
-                    <p>One-tap SOS with GPS location, nearest services, and emergency contacts.</p>
+
+                <!-- 9. Emergency SOS -->
+                <div class="bento-card" style="border-color: rgba(239, 68, 68, 0.3);">
+                    <div class="bento-icon-box" style="background: rgba(239, 68, 68, 0.15); color:#f87171;">🚨</div>
+                    <h3>Emergency SOS Dispatch</h3>
+                    <p>One-tap emergency broadcast with real-time GPS coordinates, nearest police & hospital helpline dispatch, and emergency contacts.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-red">Critical Safety</span>
+                        <a href="/pages/dashboard.html" style="color:#f87171;">SOS Panel →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">📶</div>
-                    <h3>Network Coverage</h3>
-                    <p>Check mobile network coverage and dead zones before you travel.</p>
+
+                <!-- 10. Network Coverage -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">📶</div>
+                    <h3>Telecom Coverage Heatmap</h3>
+                    <p>Check signal strength (Jio, Airtel, Vi) across high-altitude mountain passes, remote valleys, and coastal dead zones.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-green">Signal Matrix</span>
+                        <a href="/pages/dashboard.html">View Coverage →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">💰</div>
-                    <h3>Expense Splitter</h3>
-                    <p>Split travel expenses among friends with automatic settlement calculation.</p>
+
+                <!-- 11. Expense Splitter -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">💰</div>
+                    <h3>Group Expense Splitter</h3>
+                    <p>Split group trip expenses automatically with fair share calculations, owe/owed balances, and easy settlement tracking.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-green">Fair Share</span>
+                        <a href="/pages/dashboard.html">Split Bills →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">🛣️</div>
-                    <h3>Road Conditions</h3>
-                    <p>Report and view road conditions — blocked, landslide, waterlogging alerts.</p>
+
+                <!-- 12. Road Conditions -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">🛣️</div>
+                    <h3>Road & Landslide Alerts</h3>
+                    <p>Crowdsourced and official alerts on landslides, snowfall blockages, mountain pass closures, and road repairs.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-orange">Live Highway</span>
+                        <a href="/pages/dashboard.html">View Alerts →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">📋</div>
-                    <h3>Permit Checker</h3>
-                    <p>Check entry permits required for restricted areas like Ladakh, Sikkim.</p>
+
+                <!-- 13. Permit Checker -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">📋</div>
+                    <h3>Inner Line Permit (ILP) Guide</h3>
+                    <p>Check mandatory entry permits, eco-zone passes, and border area regulations for Ladakh, Sikkim, and Andaman Islands.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-purple">Permits</span>
+                        <a href="/pages/dashboard.html">Check Permits →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">📡</div>
-                    <h3>Offline Messaging</h3>
-                    <p>Bluetooth-based offline communication with nearby travelers.</p>
+
+                <!-- 14. Offline Bluetooth Mesh -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">📡</div>
+                    <h3>Offline Bluetooth Beacon</h3>
+                    <p>Peer-to-peer offline emergency locator and distress beacon synchronization when cellular networks are completely down.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-cyan">Zero Internet</span>
+                        <a href="/pages/dashboard.html">Mesh Sync →</a>
+                    </div>
                 </div>
-                <div class="feature-card animate-in">
-                    <div class="icon">👤</div>
-                    <h3>Role-Based Access</h3>
-                    <p>Three user roles — Traveller, Service Provider, Admin with dedicated dashboards.</p>
+
+                <!-- 15. Role-Based Security -->
+                <div class="bento-card">
+                    <div class="bento-icon-box">👤</div>
+                    <h3>Role-Based Access (RBAC)</h3>
+                    <p>Tailored interfaces for Travelers, Service Providers (Hotels/Cabs), and Platform Administrators with dedicated analytics.</p>
+                    <div class="bento-card-footer">
+                        <span class="badge badge-purple">JWT Secured</span>
+                        <a href="/pages/login.html">Sign In →</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section style="padding: 80px 24px; text-align: center;">
+    <!-- Top Destinations Showcase Section -->
+    <section class="destinations-section" id="destinations">
         <div class="container">
-            <h2 style="font-size: 32px; margin-bottom: 16px;">Ready to Start Your Journey? 🌟</h2>
-            <p style="color: var(--text-secondary); font-size: 16px; margin-bottom: 32px;">Join thousands of smart travelers. Plan, book, explore, and travel safely.</p>
-            <a href="/pages/register.html" class="btn btn-primary btn-lg">Create Free Account →</a>
+            <div class="section-header-centered">
+                <span class="badge badge-cyan" style="margin-bottom: 12px;">Top Picks</span>
+                <h2>Explore India's Most Iconic Destinations</h2>
+                <p>Plan seamless adventures with curated itineraries, verified hotels, and real-time mountain passes status.</p>
+            </div>
+
+            <div class="destinations-grid">
+                <!-- Manali -->
+                <div class="destination-card">
+                    <div class="dest-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80" alt="Manali">
+                        <span class="dest-rating-pill">★ 4.6</span>
+                        <span class="dest-category-pill">Mountain</span>
+                    </div>
+                    <div class="dest-info-body">
+                        <h3>Manali</h3>
+                        <p class="dest-location-text">📍 Himachal Pradesh &bull; 2,050m Altitude</p>
+                        <p>High mountain pass gateway to Rohtang Pass, Solang Valley, deodar pine forests, and thrilling paragliding.</p>
+                        <div class="dest-card-bottom">
+                            <span class="dest-best-season">❄️ Oct - Feb (Snow)</span>
+                            <a href="/pages/dashboard.html" class="btn btn-primary btn-sm">Plan Trip</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goa -->
+                <div class="destination-card">
+                    <div class="dest-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800&q=80" alt="Goa">
+                        <span class="dest-rating-pill">★ 4.5</span>
+                        <span class="dest-category-pill">Beach</span>
+                    </div>
+                    <div class="dest-info-body">
+                        <h3>Goa</h3>
+                        <p class="dest-location-text">📍 Coastal West India &bull; Arabian Sea</p>
+                        <p>Pristine golden beaches, Portuguese heritage churches, vibrant sunset cruises, and water sports.</p>
+                        <div class="dest-card-bottom">
+                            <span class="dest-best-season">🌊 Nov - Feb</span>
+                            <a href="/pages/dashboard.html" class="btn btn-primary btn-sm">Plan Trip</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ladakh -->
+                <div class="destination-card">
+                    <div class="dest-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?w=800&q=80" alt="Ladakh">
+                        <span class="dest-rating-pill">★ 4.8</span>
+                        <span class="dest-category-pill">Adventure</span>
+                    </div>
+                    <div class="dest-info-body">
+                        <h3>Ladakh</h3>
+                        <p class="dest-location-text">📍 Land of High Passes &bull; 3,500m Altitude</p>
+                        <p>Dramatic cold desert landscapes, Pangong Tso crystal lake, Khardung La pass, and ancient Buddhist monasteries.</p>
+                        <div class="dest-card-bottom">
+                            <span class="dest-best-season">🏔️ Jun - Sep (Open)</span>
+                            <a href="/pages/dashboard.html" class="btn btn-primary btn-sm">Plan Trip</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Udaipur -->
+                <div class="destination-card">
+                    <div class="dest-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1615836245337-f5b9b2303f10?w=800&q=80" alt="Udaipur">
+                        <span class="dest-rating-pill">★ 4.6</span>
+                        <span class="dest-category-pill">Heritage</span>
+                    </div>
+                    <div class="dest-info-body">
+                        <h3>Udaipur</h3>
+                        <p class="dest-location-text">📍 Rajasthan &bull; City of Lakes</p>
+                        <p>Royal marble palaces on Lake Pichola, sunset boat rides, rich Rajasthani culture, and luxury retreats.</p>
+                        <div class="dest-card-bottom">
+                            <span class="dest-best-season">👑 Sep - Mar</span>
+                            <a href="/pages/dashboard.html" class="btn btn-primary btn-sm">Plan Trip</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Darjeeling -->
+                <div class="destination-card">
+                    <div class="dest-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80" alt="Darjeeling">
+                        <span class="dest-rating-pill">★ 4.4</span>
+                        <span class="dest-category-pill">Mountain</span>
+                    </div>
+                    <div class="dest-info-body">
+                        <h3>Darjeeling</h3>
+                        <p class="dest-location-text">📍 West Bengal &bull; Queen of Hills</p>
+                        <p>Lush green tea gardens, Himalayan Toy Train UNESCO railway, and breathtaking sunrise over Kanchenjunga peak.</p>
+                        <div class="dest-card-bottom">
+                            <span class="dest-best-season">🍵 Apr - Jun / Sep - Nov</span>
+                            <a href="/pages/dashboard.html" class="btn btn-primary btn-sm">Plan Trip</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Andaman Islands -->
+                <div class="destination-card">
+                    <div class="dest-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=800&q=80" alt="Andaman">
+                        <span class="dest-rating-pill">★ 4.7</span>
+                        <span class="dest-category-pill">Tropical</span>
+                    </div>
+                    <div class="dest-info-body">
+                        <h3>Andaman Islands</h3>
+                        <p class="dest-location-text">📍 Bay of Bengal &bull; Radhanagar Beach</p>
+                        <p>Crystal clear turquoise waters, coral reef scuba diving, bioluminescent beaches, and serene island escapades.</p>
+                        <div class="dest-card-bottom">
+                            <span class="dest-best-season">🤿 Nov - May</span>
+                            <a href="/pages/dashboard.html" class="btn btn-primary btn-sm">Plan Trip</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer style="padding: 32px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 14px;">
-        <p>© 2024 Smart Travel & Tourism Platform | Major Project</p>
+    <!-- Emergency Safety & SOS Spotlight Section -->
+    <section class="sos-banner-wrap" id="safety">
+        <div class="container">
+            <div class="sos-spotlight-box">
+                <div class="sos-grid-layout">
+                    <div>
+                        <span class="sos-badge">🚨 Immediate Safety Protection</span>
+                        <h3>Never Travel Alone in Critical Situations</h3>
+                        <p style="color:rgba(255,255,255,0.85); font-size:15px; line-height:1.6;">
+                            Our platform actively monitors landslides, extreme weather, and mountain pass blockages. With one tap, broadcast your live GPS location to local police, medical responders, and your pre-configured family emergency contacts.
+                        </p>
+                        <div class="sos-helpline-chips">
+                            <div class="sos-chip">
+                                <span>👮 Police:</span>
+                                <strong>100</strong>
+                            </div>
+                            <div class="sos-chip">
+                                <span>🚑 Ambulance:</span>
+                                <strong>108</strong>
+                            </div>
+                            <div class="sos-chip">
+                                <span>🌊 Disaster:</span>
+                                <strong>1078</strong>
+                            </div>
+                            <div class="sos-chip">
+                                <span>🗺️ Tourist Helpline:</span>
+                                <strong>1363</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;">
+                        <a href="/pages/dashboard.html" class="btn btn-danger btn-lg" style="font-size:16px; padding:16px 36px;">
+                            🚨 Open Live SOS Center
+                        </a>
+                        <p style="font-size:12px; color:rgba(255,255,255,0.6); text-align:center;">
+                            Works online via GPS and offline via Bluetooth Mesh Broadcast
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modern Footer -->
+    <footer style="padding: 60px 0 30px 0; border-top: 1px solid var(--border-color); background: #070a12;">
+        <div class="container">
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:32px; margin-bottom:40px;">
+                <div>
+                    <div class="nav-brand" style="color:white; margin-bottom:12px;">
+                        <span>🌍 TravelSmart</span>
+                    </div>
+                    <p style="color:var(--text-muted); font-size:13px; line-height:1.6;">
+                        Next-generation smart tourism platform featuring AI trip planning, booking engines, live road safety, and financial expense splitting.
+                    </p>
+                </div>
+                <div>
+                    <h4 style="font-size:14px; margin-bottom:12px; color:white; text-transform:uppercase; letter-spacing:1px;">Platform</h4>
+                    <div style="display:flex; flex-direction:column; gap:8px; font-size:13px; color:var(--text-secondary);">
+                        <a href="#features">15+ Modules</a>
+                        <a href="#destinations">Destination Guide</a>
+                        <a href="/pages/dashboard.html">Interactive Dashboard</a>
+                        <a href="/pages/login.html">Sign In</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-size:14px; margin-bottom:12px; color:white; text-transform:uppercase; letter-spacing:1px;">Emergency & Safety</h4>
+                    <div style="display:flex; flex-direction:column; gap:8px; font-size:13px; color:var(--text-secondary);">
+                        <a href="#safety">SOS Help Center</a>
+                        <a href="#features">Road Conditions</a>
+                        <a href="#features">Network Coverage</a>
+                        <a href="#features">Offline Bluetooth Mesh</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-size:14px; margin-bottom:12px; color:white; text-transform:uppercase; letter-spacing:1px;">Academic Project</h4>
+                    <p style="font-size:13px; color:var(--text-muted); line-height:1.6;">
+                        Smart Travel & Tourism Platform<br>
+                        Computer Science Major Project &bull; 2024-2026<br>
+                        Authored by Abhishek Singh Rawat & Team
+                    </p>
+                </div>
+            </div>
+            <div style="text-align:center; padding-top:24px; border-top:1px solid rgba(255,255,255,0.06); color:var(--text-muted); font-size:12px;">
+                &copy; 2026 TravelSmart Platform. All rights reserved. Built with Node.js, Express, MongoDB, and Modern Vanilla CSS.
+            </div>
+        </div>
     </footer>
 
+    <!-- Mobile Navigation Toggle Script -->
     <script>
-        // Generate floating particles
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 30; i++) {
-            const span = document.createElement('span');
-            span.style.left = Math.random() * 100 + '%';
-            span.style.animationDuration = (Math.random() * 20 + 10) + 's';
-            span.style.animationDelay = (Math.random() * 10) + 's';
-            span.style.width = (Math.random() * 4 + 2) + 'px';
-            span.style.height = span.style.width;
-            particlesContainer.appendChild(span);
-        }
+        const navToggle = document.getElementById('mobileNavToggle');
+        const mobileDropdown = document.getElementById('mobileDropdown');
 
-        // Animate features on scroll
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                }
+        if (navToggle && mobileDropdown) {
+            navToggle.addEventListener('click', () => {
+                const isOpen = mobileDropdown.style.display === 'flex';
+                mobileDropdown.style.display = isOpen ? 'none' : 'flex';
+                navToggle.textContent = isOpen ? '☰' : '✕';
             });
-        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.animate-in').forEach(el => {
-            el.style.animationPlayState = 'paused';
-            observer.observe(el);
-        });
+            // Close on link click
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileDropdown.style.display = 'none';
+                    navToggle.textContent = '☰';
+                });
+            });
+        }
     </script>
 </body>
 </html>
