@@ -7,7 +7,11 @@ const User = require('../../database/models/User');
 const auth = require('../middleware/auth');
 const { DEMO_USERS } = require('../../database/seeds/seedData');
 
-function isDbReady() { return mongoose.connection.readyState === 1; }
+function isDbReady() {
+    const uri = process.env.MONGODB_URI;
+    if (!uri || uri.includes('127.0.0.1') || uri.includes('localhost')) return false;
+    return mongoose.connection && mongoose.connection.readyState === 1;
+}
 
 // @route   GET /api/chat/conversations
 // @desc    Get all conversations for the logged-in user

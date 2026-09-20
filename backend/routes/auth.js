@@ -12,7 +12,11 @@ const JWT_EXPIRE = process.env.JWT_EXPIRE || '7d';
 
 // Helper: check if DB is actually connected and ready for queries
 function isDbReady() {
-    return mongoose.connection.readyState === 1;
+    const uri = process.env.MONGODB_URI;
+    if (!uri || uri.includes('127.0.0.1') || uri.includes('localhost')) {
+        return false;
+    }
+    return mongoose.connection && mongoose.connection.readyState === 1;
 }
 
 // @route   POST /api/auth/register
