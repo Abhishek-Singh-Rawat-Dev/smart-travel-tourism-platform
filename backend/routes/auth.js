@@ -30,9 +30,11 @@ router.post('/register', async (req, res) => {
         }
 
         // Check if user exists
-        let user = await User.findOne({ email });
-        if (user) {
-            return res.status(400).json({ success: false, message: 'User already exists with this email' });
+        if (isDbReady() && mongoose.connection.db) {
+            let existing = await mongoose.connection.db.collection('users').findOne({ email });
+            if (existing) {
+                return res.status(400).json({ success: false, message: 'User already exists with this email' });
+            }
         }
 
         // Create user
@@ -156,9 +158,9 @@ router.get('/users', auth, async (req, res) => {
             return res.status(403).json({ success: false, message: 'Admin access required' });
         }
 
-        if (isDbReady()) {
+        if (isDbReady() && mongoose.connection.db) {
             try {
-                const users = await User.find().select('-password').sort('-createdAt');
+                const users = await mongoose.connection.db.collection('users').find({}, { projection: { password: 0 } }).sort({ createdAt: -1 }).toArray();
                 return res.json({ success: true, count: users.length, users });
             } catch (dbErr) {
                 console.error('DB error fetching users, using demo fallback:', dbErr.message);
