@@ -62,7 +62,7 @@ router.post('/login', async (req, res) => {
         // --- Try MongoDB first ---
         if (isDbReady()) {
             try {
-                const user = await User.findOne({ email }).setOptions({ bufferCommands: false });
+                const user = await User.findOne({ email }).maxTimeMS(1500).setOptions({ bufferCommands: false });
 
                 if (user) {
                     const isMatch = await user.comparePassword(password);
