@@ -26,6 +26,10 @@
             <button class="sidebar-link" data-page="explore">
                 <span class="link-icon">🏔️</span> Explore Destinations
             </button>
+            <button class="sidebar-link" data-page="chat">
+                <span class="link-icon">💬</span> Messages
+                <span class="chat-unread-badge" id="chatUnreadBadge" style="display:none;"></span>
+            </button>
         </div>
 
         <div class="sidebar-section">
@@ -670,7 +674,57 @@
             </div>
         </div>
 
-        <!-- 17. Admin Management -->
+        <!-- 17. Chat / Messages -->
+        <div id="page-chat" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h1>💬 Messages</h1>
+                <p>Chat with service providers & fellow travelers</p>
+            </div>
+            <div class="chat-container">
+                <!-- Left: Conversation List -->
+                <div class="chat-sidebar" id="chatSidebar">
+                    <div class="chat-sidebar-header">
+                        <input type="text" class="form-input" id="chatSearchConv" placeholder="🔍 Search conversations..." oninput="filterConversations()">
+                        <button class="btn btn-primary btn-sm" onclick="openNewChatModal()" style="white-space:nowrap;">✏️ New</button>
+                    </div>
+                    <div class="chat-conv-list" id="chatConvList">
+                        <div class="chat-empty-state">
+                            <div class="icon">💬</div>
+                            <h3>No conversations yet</h3>
+                            <p>Start chatting with a service provider!</p>
+                            <button class="btn btn-primary btn-sm" onclick="openNewChatModal()" style="margin-top:12px;">✏️ Start New Chat</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right: Message Thread -->
+                <div class="chat-thread" id="chatThread">
+                    <div class="chat-thread-placeholder" id="chatThreadPlaceholder">
+                        <div class="icon">🗨️</div>
+                        <h3>Select a conversation</h3>
+                        <p>Choose a chat from the sidebar or start a new one</p>
+                    </div>
+                    <div class="chat-thread-active" id="chatThreadActive" style="display:none;">
+                        <div class="chat-thread-header" id="chatThreadHeader">
+                            <button class="chat-back-btn" onclick="closeChatThread()" title="Back">←</button>
+                            <div class="chat-thread-user">
+                                <div class="chat-avatar-sm" id="chatThreadAvatar">👤</div>
+                                <div>
+                                    <div class="chat-thread-name" id="chatThreadName">User</div>
+                                    <div class="chat-thread-role" id="chatThreadRole">traveller</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-messages" id="chatMessages"></div>
+                        <div class="chat-input-bar">
+                            <input type="text" class="form-input" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChatMessage()">
+                            <button class="btn btn-primary" onclick="sendChatMessage()" id="chatSendBtn">📤 Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 18. Admin Management -->
         <div id="page-admin" class="page-content" style="display:none;">
             <div class="page-header">
                 <h1>⚙️ Administrative Command Center</h1>

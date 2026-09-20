@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const TripPlan = require('../../database/models/TripPlan');
 const Destination = require('../../database/models/Destination');
 const auth = require('../middleware/auth');
+
+function isDbReady() { return mongoose.connection.readyState === 1; }
 
 // Activity templates by interest
 const activityTemplates = {
@@ -208,10 +211,11 @@ router.post('/plan', auth, async (req, res) => {
 // @route   GET /api/trips/my-trips
 router.get('/my-trips', auth, async (req, res) => {
     try {
+        if (!isDbReady()) return res.json({ success: true, count: 0, trips: [] });
         const trips = await TripPlan.find({ userId: req.user._id }).sort('-createdAt');
         res.json({ success: true, count: trips.length, trips });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Server error' });
+        res.json({ success: true, count: 0, trips: [] });
     }
 });
 

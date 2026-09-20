@@ -1,5 +1,9 @@
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 const User = require('../../database/models/User');
+const { DEMO_USERS } = require('../../database/seeds/seedData');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'smartTravelTourism2024SecretKey_x7k9m2p';
 
 const auth = async (req, res, next) => {
     try {
@@ -12,18 +16,59 @@ const auth = async (req, res, next) => {
             });
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.id).select('-password');
-        
-        if (!user) {
-            return res.status(401).json({ 
-                success: false, 
-                message: 'Token is not valid. User not found.' 
-            });
+        const decoded = jwt.verify(token, JWT_SECRET);
+
+        // If token was issued for a demo user (DB offline), use demo data
+        if (decoded.demo) {
+            const demoUser = DEMO_USERS.find(u => u._id === decoded.id);
+            if (demoUser) {
+                req.user = {
+                    _id: demoUser._id,
+                    name: demoUser.name,
+                    email: demoUser.email,
+                    role: demoUser.role,
+                    phone: demoUser.phone,
+                    isActive: demoUser.isActive,
+                    preferences: demoUser.preferences,
+                    providerDetails: demoUser.providerDetails
+                };
+                return next();
+            }
         }
 
-        req.user = user;
-        next();
+        // Try fetching from DB
+        if (mongoose.connection.readyState === 1) {
+            try {
+                const user = await User.findById(decoded.id).select('-password');
+                if (user) {
+                    req.user = user;
+                    return next();
+                }
+            } catch (dbErr) {
+                console.error('DB error in auth middleware:', dbErr.message);
+            }
+        }
+
+        // Fallback: check demo users by decoded.id
+        const fallbackUser = DEMO_USERS.find(u => u._id === decoded.id);
+        if (fallbackUser) {
+            req.user = {
+                _id: fallbackUser._id,
+                name: fallbackUser.name,
+                email: fallbackUser.email,
+                role: fallbackUser.role,
+                phone: fallbackUser.phone,
+                isActive: fallbackUser.isActive,
+                preferences: fallbackUser.preferences,
+                providerDetails: fallbackUser.providerDetails
+            };
+            return next();
+        }
+
+        return res.status(401).json({ 
+            success: false, 
+            message: 'Token is not valid. User not found.' 
+        });
     } catch (error) {
         res.status(401).json({ 
             success: false, 

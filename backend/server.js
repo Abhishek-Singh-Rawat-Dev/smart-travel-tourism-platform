@@ -43,6 +43,7 @@ app.use('/api/expenses', require('./routes/expense'));
 app.use('/api/roads', require('./routes/roadCondition'));
 app.use('/api/permits', require('./routes/permit'));
 app.use('/api/bluetooth', require('./routes/bluetooth'));
+app.use('/api/chat', require('./routes/chat'));
 
 // Serve frontend pages
 app.get('/', (req, res) => {

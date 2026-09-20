@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupNetwork();
     setupBluetooth();
     setupPriceTracker();
+    setupChat();
 });
 
 // ---- Navigation ----
@@ -70,6 +71,8 @@ function navigateTo(page) {
     if (link) link.classList.add('active');
 
     currentPage = page;
+
+    if (page !== 'chat') stopChatPolling();
 
     // Load data for specific pages
     if (page === 'explore') loadDestinations();
@@ -86,6 +89,10 @@ function navigateTo(page) {
     if (page === 'bluetooth') loadBTMessages();
     if (page === 'price-tracker') loadPriceTrends();
     if (page === 'admin') loadAdminUsers();
+    if (page === 'chat') {
+        loadConversations();
+        startChatPolling();
+    }
 
     // Close sidebar on mobile
     document.getElementById('sidebar')?.classList.remove('open');
@@ -1094,6 +1101,274 @@ async function loadAdminBookings() {
                 </tr>
             `).join('')}</tbody></table></div>`;
     } catch (e) { console.error(e); }
+}
+
+// ---- Helper Utilities ----
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+// ---- 17. Chat / Real-time Messaging ----
+let activeConversationId = null;
+let chatPollInterval = null;
+let conversationsCache = [];
+
+function setupChat() {
+    updateUnreadBadge();
+    setInterval(updateUnreadBadge, 30000);
+}
+
+function startChatPolling() {
+    stopChatPolling();
+    chatPollInterval = setInterval(() => {
+        if (currentPage === 'chat') {
+            loadConversations(true);
+            if (activeConversationId) {
+                loadMessages(activeConversationId, true);
+            }
+        }
+    }, 4000);
+}
+
+function stopChatPolling() {
+    if (chatPollInterval) {
+        clearInterval(chatPollInterval);
+        chatPollInterval = null;
+    }
+}
+
+async function updateUnreadBadge() {
+    try {
+        const data = await api('/chat/unread-count');
+        const badge = document.getElementById('chatUnreadBadge');
+        if (badge) {
+            if (data.unreadCount > 0) {
+                badge.textContent = data.unreadCount > 99 ? '99+' : data.unreadCount;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+    } catch (e) { /* silent catch */ }
+}
+
+async function loadConversations(isSilent = false) {
+    try {
+        const data = await api('/chat/conversations');
+        conversationsCache = data.conversations || [];
+        renderConversations(conversationsCache);
+    } catch (e) {
+        console.error('Failed to load conversations:', e);
+        if (!isSilent) {
+            const listEl = document.getElementById('chatConvList');
+            if (listEl) {
+                listEl.innerHTML = `
+                    <div class="chat-empty-state">
+                        <p style="color:var(--text-muted)">Could not load chats. Try again later.</p>
+                    </div>`;
+            }
+        }
+    }
+}
+
+function renderConversations(conversations) {
+    const listEl = document.getElementById('chatConvList');
+    if (!listEl) return;
+
+    if (!conversations.length) {
+        listEl.innerHTML = `
+            <div class="chat-empty-state">
+                <div class="icon">💬</div>
+                <h3>No conversations yet</h3>
+                <p>Start chatting with a service provider!</p>
+                <button class="btn btn-primary btn-sm" onclick="openNewChatModal()" style="margin-top:12px;">✏️ Start New Chat</button>
+            </div>`;
+        return;
+    }
+
+    listEl.innerHTML = conversations.map(c => {
+        const otherUser = c.otherParticipant || {};
+        const isActive = c._id === activeConversationId;
+        const roleIcon = otherUser.role === 'service_provider' ? '🏨' : otherUser.role === 'admin' ? '👑' : '👤';
+        const roleName = otherUser.role === 'service_provider' ? 'Provider' : otherUser.role === 'admin' ? 'Admin' : 'Traveler';
+        
+        return `
+            <div class="chat-conv-item ${isActive ? 'active' : ''}" onclick="openConversation('${c._id}', '${escapeHtml(otherUser.name || 'User')}', '${roleName}')">
+                <div class="chat-avatar">${roleIcon}</div>
+                <div class="chat-conv-info">
+                    <div class="chat-conv-top">
+                        <span class="chat-conv-name">${escapeHtml(otherUser.name || 'User')}</span>
+                        <span class="chat-conv-time">${c.lastMessageAt ? formatDate(c.lastMessageAt) : ''}</span>
+                    </div>
+                    <div class="chat-conv-bottom">
+                        <span class="chat-conv-preview">${escapeHtml(c.lastMessage || 'No messages yet')}</span>
+                        ${c.unreadCount > 0 ? `<span class="unread-badge">${c.unreadCount}</span>` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function filterConversations() {
+    const query = document.getElementById('chatSearchConv')?.value.toLowerCase() || '';
+    const filtered = conversationsCache.filter(c => {
+        const name = c.otherParticipant?.name?.toLowerCase() || '';
+        const msg = c.lastMessage?.toLowerCase() || '';
+        return name.includes(query) || msg.includes(query);
+    });
+    renderConversations(filtered);
+}
+
+async function openConversation(convId, otherUserName, otherUserRole) {
+    activeConversationId = convId;
+    
+    document.getElementById('chatThreadPlaceholder').style.display = 'none';
+    document.getElementById('chatThreadActive').style.display = 'flex';
+    document.getElementById('chatThreadName').textContent = otherUserName;
+    document.getElementById('chatThreadRole').textContent = otherUserRole;
+    
+    const roleIcon = otherUserRole.includes('Provider') ? '🏨' : otherUserRole.includes('Admin') ? '👑' : '👤';
+    document.getElementById('chatThreadAvatar').textContent = roleIcon;
+
+    document.getElementById('chatSidebar')?.classList.add('mobile-hidden');
+    document.querySelectorAll('.chat-conv-item').forEach(el => el.classList.remove('active'));
+
+    await loadMessages(convId);
+    try {
+        await api(`/chat/read/${convId}`, { method: 'PUT' });
+        updateUnreadBadge();
+    } catch (e) {}
+}
+
+function closeChatThread() {
+    activeConversationId = null;
+    document.getElementById('chatThreadPlaceholder').style.display = 'flex';
+    document.getElementById('chatThreadActive').style.display = 'none';
+    document.getElementById('chatSidebar')?.classList.remove('mobile-hidden');
+}
+
+async function loadMessages(convId, isSilent = false) {
+    try {
+        const data = await api(`/chat/conversations/${convId}/messages`);
+        const messages = data.messages || [];
+        const msgContainer = document.getElementById('chatMessages');
+        if (!msgContainer) return;
+
+        const currentUserId = currentUser?._id;
+        
+        msgContainer.innerHTML = messages.map(m => {
+            const senderId = typeof m.sender === 'object' ? m.sender?._id : m.sender;
+            const isSent = senderId === currentUserId;
+            const timeStr = m.createdAt ? new Date(m.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+            return `
+                <div class="chat-bubble ${isSent ? 'chat-bubble-sent' : 'chat-bubble-received'}">
+                    <div class="chat-bubble-text">${escapeHtml(m.text)}</div>
+                    <div class="chat-bubble-time">${timeStr} ${isSent ? (m.read ? '✓✓' : '✓') : ''}</div>
+                </div>
+            `;
+        }).join('');
+
+        msgContainer.scrollTop = msgContainer.scrollHeight;
+    } catch (e) {
+        console.error('Failed to load messages:', e);
+    }
+}
+
+async function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const text = input?.value.trim();
+    if (!text || !activeConversationId) return;
+
+    input.value = '';
+    const btn = document.getElementById('chatSendBtn');
+    if (btn) btn.disabled = true;
+
+    try {
+        await api('/chat/send', {
+            method: 'POST',
+            body: { conversationId: activeConversationId, text }
+        });
+
+        await loadMessages(activeConversationId, true);
+        loadConversations(true);
+    } catch (e) {
+        showToast(e.message || 'Failed to send message', 'error');
+    } finally {
+        if (btn) btn.disabled = false;
+        input.focus();
+    }
+}
+
+function openNewChatModal() {
+    showModal(`
+        <h2 style="margin-bottom:16px;">💬 Start New Chat</h2>
+        <div class="form-group">
+            <input type="text" class="form-input" id="chatSearchUserInput" placeholder="🔍 Search users by name or email..." oninput="searchChatUsers()">
+        </div>
+        <div id="chatUserSearchResults" style="max-height:300px; overflow-y:auto; margin-top:12px;">
+            <p style="color:var(--text-muted); text-align:center; padding:20px;">Searching available users...</p>
+        </div>
+    `);
+    searchChatUsers();
+}
+
+async function searchChatUsers() {
+    const query = document.getElementById('chatSearchUserInput')?.value.trim() || '';
+    const resultsEl = document.getElementById('chatUserSearchResults');
+    if (!resultsEl) return;
+
+    try {
+        const data = await api(`/chat/users?search=${encodeURIComponent(query)}`);
+        const users = data.users || [];
+
+        if (!users.length) {
+            resultsEl.innerHTML = `<p style="color:var(--text-muted); text-align:center; padding:20px;">No users found matching "${escapeHtml(query)}".</p>`;
+            return;
+        }
+
+        resultsEl.innerHTML = users.map(u => {
+            const roleBadge = u.role === 'service_provider' ? 'badge-purple' : u.role === 'admin' ? 'badge-danger' : 'badge-primary';
+            const roleIcon = u.role === 'service_provider' ? '🏨' : u.role === 'admin' ? '👑' : '👤';
+            const roleLabel = u.role === 'service_provider' ? 'Service Provider' : u.role === 'admin' ? 'Admin' : 'Traveler';
+            return `
+                <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:var(--glass-bg); border:1px solid var(--border-color); border-radius:10px; margin-bottom:8px;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:20px;">${roleIcon}</span>
+                        <div>
+                            <div style="font-weight:600; color:var(--text-main);">${escapeHtml(u.name)}</div>
+                            <div style="font-size:12px; color:var(--text-muted);">${escapeHtml(u.email)} • <span class="badge ${roleBadge}">${roleLabel}</span></div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="startNewChat('${u._id}', '${escapeHtml(u.name)}', '${roleLabel}')">💬 Chat</button>
+                </div>
+            `;
+        }).join('');
+    } catch (e) {
+        console.error('Search user error:', e);
+    }
+}
+
+async function startNewChat(userId, userName, userRole) {
+    closeModal();
+    try {
+        const res = await api('/chat/send', {
+            method: 'POST',
+            body: { recipientId: userId, text: '👋 Hi!' }
+        });
+        await loadConversations();
+        if (res.conversationId) {
+            openConversation(res.conversationId, userName, userRole);
+        }
+    } catch (e) {
+        showToast(e.message || 'Could not start chat', 'error');
+    }
 }
 
 console.log('📊 Dashboard module loaded');
