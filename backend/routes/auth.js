@@ -66,10 +66,10 @@ router.post('/login', async (req, res) => {
         // --- Try MongoDB first ---
         if (isDbReady()) {
             try {
-                const user = await User.findOne({ email }).maxTimeMS(1500).setOptions({ bufferCommands: false });
+                const user = await User.findOne({ email }).lean().maxTimeMS(1500);
 
                 if (user) {
-                    const isMatch = await user.comparePassword(password);
+                    const isMatch = await bcrypt.compare(password, user.password);
                     if (!isMatch) {
                         return res.status(400).json({ success: false, message: 'Invalid email or password' });
                     }
