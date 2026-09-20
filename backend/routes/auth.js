@@ -62,7 +62,10 @@ router.post('/login', async (req, res) => {
         // --- Try MongoDB first ---
         if (isDbReady()) {
             try {
-                const user = await User.findOne({ email });
+                const userPromise = User.findOne({ email });
+                const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('DB Timeout')), 1500));
+                const user = await Promise.race([userPromise, timeoutPromise]);
+
                 if (user) {
                     const isMatch = await user.comparePassword(password);
                     if (!isMatch) {

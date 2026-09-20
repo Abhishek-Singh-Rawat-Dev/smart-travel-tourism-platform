@@ -32,7 +32,8 @@ const messageSchema = new mongoose.Schema({
         type: Date
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    bufferCommands: false
 });
 
 // Index for fetching messages in a conversation chronologically

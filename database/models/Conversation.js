@@ -20,7 +20,8 @@ const conversationSchema = new mongoose.Schema({
         role: String
     }]
 }, {
-    timestamps: true
+    timestamps: true,
+    bufferCommands: false
 });
 
 // Index for fast lookup by participant
