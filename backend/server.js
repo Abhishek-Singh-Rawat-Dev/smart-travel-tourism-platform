@@ -2,6 +2,7 @@ const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const mongoose = require('mongoose');
 mongoose.set('bufferCommands', false);
+mongoose.set('autoIndex', false);
 
 const express = require('express');
 const cors = require('cors');

@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 let isConnecting = false;
 
-// Disable Mongoose buffering so queries fail fast when DB is disconnected
-// instead of stalling for 10 seconds and causing serverless timeouts.
+// Disable Mongoose buffering and autoIndex in serverless to prevent background timeouts
 mongoose.set('bufferCommands', false);
+mongoose.set('autoIndex', false);
 
 const connectDB = async () => {
     if (mongoose.connection.readyState >= 1) {
@@ -30,7 +30,8 @@ const connectDB = async () => {
         const conn = await mongoose.connect(connectionString, {
             serverSelectionTimeoutMS: 2000,
             connectTimeoutMS: 2000,
-            bufferCommands: false
+            bufferCommands: false,
+            autoIndex: false
         });
         console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     } catch (error) {
