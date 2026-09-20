@@ -6,6 +6,11 @@ let isConnecting = false;
 mongoose.set('bufferCommands', false);
 mongoose.set('autoIndex', false);
 
+// Catch background connection errors gracefully
+mongoose.connection.on('error', (err) => {
+    console.warn('Mongoose background event:', err.message);
+});
+
 const connectDB = async () => {
     if (mongoose.connection.readyState >= 1) {
         return;

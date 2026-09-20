@@ -13,10 +13,11 @@ const app = express();
 // Non-blocking database connection middleware
 app.use(async (req, res, next) => {
     try {
-        await connectDB();
-    } catch (e) {
-        // Continue gracefully
-    }
+        await Promise.race([
+            connectDB(),
+            new Promise(resolve => setTimeout(resolve, 800))
+        ]);
+    } catch (e) {}
     next();
 });
 
