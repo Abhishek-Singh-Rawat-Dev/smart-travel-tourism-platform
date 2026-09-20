@@ -4,13 +4,16 @@ mongoose.set('autoIndex', false);
 
 const app = require('../backend/server');
 
+const url = require('url');
+
 module.exports = (req, res) => {
-    // Restore original route URL when rewritten by Vercel
-    const originalUrl = req.headers['x-forwarded-uri'] || req.headers['x-matched-path'];
-    if (originalUrl) {
-        req.url = originalUrl;
-    } else if (req.query && req.query.path) {
-        req.url = '/api/' + req.query.path;
-    }
+    try {
+        const parsed = url.parse(req.url || '', true);
+        if (parsed.query && parsed.query.path) {
+            req.url = '/api/' + parsed.query.path;
+        } else if (req.headers['x-matched-path']) {
+            req.url = req.headers['x-matched-path'];
+        }
+    } catch (e) {}
     return app(req, res);
 };
