@@ -45,16 +45,11 @@ const auth = async (req, res, next) => {
         }
 
         // Try fetching from DB safely
-        if (isDbReady()) {
+        if (isDbReady() && mongoose.connection.db) {
             try {
-                const userQuery = User.findById(decoded.id).select('-password').lean().exec().catch(err => {
-                    console.warn('DB error in auth middleware caught safely:', err.message);
-                    return null;
+                const user = await mongoose.connection.db.collection('users').findOne({
+                    $or: [{ _id: decoded.id }, { email: decoded.email }]
                 });
-                const user = await Promise.race([
-                    userQuery,
-                    new Promise(resolve => setTimeout(() => resolve(null), 1200))
-                ]);
                 if (user) {
                     req.user = user;
                     return next();

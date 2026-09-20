@@ -64,23 +64,16 @@ router.post('/login', async (req, res) => {
         }
 
         // --- Try MongoDB first ---
-        if (isDbReady()) {
+        if (isDbReady() && mongoose.connection.db) {
             try {
-                const userQuery = User.findOne({ email }).lean().exec().catch(err => {
-                    console.warn('DB query error caught safely:', err.message);
-                    return null;
-                });
-                const user = await Promise.race([
-                    userQuery,
-                    new Promise((resolve) => setTimeout(() => resolve(null), 1200))
-                ]);
+                const user = await mongoose.connection.db.collection('users').findOne({ email });
 
                 if (user) {
                     const isMatch = await bcrypt.compare(password, user.password);
                     if (!isMatch) {
                         return res.status(400).json({ success: false, message: 'Invalid email or password' });
                     }
-                    if (!user.isActive) {
+                    if (user.isActive === false) {
                         return res.status(403).json({ success: false, message: 'Account is deactivated. Contact admin.' });
                     }
                     const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: JWT_EXPIRE });
