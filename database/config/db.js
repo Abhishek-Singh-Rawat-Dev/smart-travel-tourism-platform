@@ -14,10 +14,13 @@ const connectDB = async () => {
 
     const uri = process.env.MONGODB_URI;
 
-    // In Vercel serverless, if no remote Atlas URI is provided, don't attempt 127.0.0.1
-    if (process.env.VERCEL && (!uri || uri.includes('127.0.0.1') || uri.includes('localhost'))) {
-        console.warn('⚠️ Remote MONGODB_URI (e.g. MongoDB Atlas) not configured in Vercel environment variables.');
-        return;
+    const isServerlessOrProd = process.env.VERCEL || process.env.VERCEL_ENV || process.env.NODE_ENV === 'production' || !process.env.PORT;
+
+    if (!uri || uri.includes('127.0.0.1') || uri.includes('localhost')) {
+        if (isServerlessOrProd) {
+            console.warn('⚠️ Remote MONGODB_URI not set. Running in demo mode without DB connection.');
+            return;
+        }
     }
 
     const connectionString = uri || 'mongodb://127.0.0.1:27017/smart-travel-tourism';
@@ -25,7 +28,9 @@ const connectDB = async () => {
     try {
         isConnecting = true;
         const conn = await mongoose.connect(connectionString, {
-            serverSelectionTimeoutMS: 3000 // Fast 3s timeout to prevent serverless freeze
+            serverSelectionTimeoutMS: 2000,
+            connectTimeoutMS: 2000,
+            bufferCommands: false
         });
         console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     } catch (error) {
