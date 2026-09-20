@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.set('bufferCommands', false);
 
 const conversationSchema = new mongoose.Schema({
     participants: [{
