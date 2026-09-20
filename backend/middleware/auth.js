@@ -5,6 +5,14 @@ const { DEMO_USERS } = require('../../database/seeds/seedData');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'smartTravelTourism2024SecretKey_x7k9m2p';
 
+function isDbReady() {
+    const uri = process.env.MONGODB_URI;
+    if (!uri || uri.includes('127.0.0.1') || uri.includes('localhost')) {
+        return false;
+    }
+    return mongoose.connection && mongoose.connection.readyState === 1;
+}
+
 const auth = async (req, res, next) => {
     try {
         const token = req.header('Authorization')?.replace('Bearer ', '');
@@ -36,10 +44,17 @@ const auth = async (req, res, next) => {
             }
         }
 
-        // Try fetching from DB
-        if (mongoose.connection.readyState === 1) {
+        // Try fetching from DB safely
+        if (isDbReady()) {
             try {
-                const user = await User.findById(decoded.id).select('-password');
+                const userQuery = User.findById(decoded.id).select('-password').lean().exec().catch(err => {
+                    console.warn('DB error in auth middleware caught safely:', err.message);
+                    return null;
+                });
+                const user = await Promise.race([
+                    userQuery,
+                    new Promise(resolve => setTimeout(() => resolve(null), 1200))
+                ]);
                 if (user) {
                     req.user = user;
                     return next();
