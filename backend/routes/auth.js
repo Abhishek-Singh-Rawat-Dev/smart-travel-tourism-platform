@@ -66,7 +66,14 @@ router.post('/login', async (req, res) => {
         // --- Try MongoDB first ---
         if (isDbReady()) {
             try {
-                const user = await User.findOne({ email }).lean().maxTimeMS(1500);
+                const userQuery = User.findOne({ email }).lean().exec().catch(err => {
+                    console.warn('DB query error caught safely:', err.message);
+                    return null;
+                });
+                const user = await Promise.race([
+                    userQuery,
+                    new Promise((resolve) => setTimeout(() => resolve(null), 1200))
+                ]);
 
                 if (user) {
                     const isMatch = await bcrypt.compare(password, user.password);
@@ -84,10 +91,8 @@ router.post('/login', async (req, res) => {
                         user: { id: user._id, name: user.name, email: user.email, role: user.role, phone: user.phone, preferences: user.preferences }
                     });
                 }
-                // User not found in DB — fall through to demo check below
             } catch (dbErr) {
                 console.error('DB query error during login, falling back to demo:', dbErr.message);
-                // Fall through to demo login
             }
         }
 
